@@ -8,10 +8,6 @@ import {
 } from "react-leaflet";
 import geoJson from "../countries-land-10km.geo.json";
 // import geoJson from "../custom.geo.json";
-// import { useDispatch, useSelector } from "react-redux";
-// import { HashRouter, Route } from "react-router-dom";
-// import { Map, TileLayer, Marker, Popup } from "react-leaflet";
-// const { Map: LeafletMap, TileLayer, Marker, Popup } = ReactLeaflet;
 
 export default class WorldMap extends React.Component {
   render() {
