@@ -18,7 +18,7 @@ export default class CountryPopUp extends React.Component {
   render() {
     return (
       <div className="country-popup">
-        <h2>{this.state.name}</h2>
+        <h1>{this.state.name}</h1>
         <img
           src={this.state.url}
           key={this.state.id}

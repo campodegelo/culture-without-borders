@@ -18,7 +18,7 @@ export default class Maps extends React.Component {
     this.state = {
       lng: 0,
       lat: 0,
-      zoom: 0.1
+      zoom: 1
     };
   }
 
@@ -81,8 +81,9 @@ export default class Maps extends React.Component {
 
     // Event Handlers on the map
     map.on("click", "countries-layer", function(e) {
-      console.log("country name = ", e.features[0].properties.name);
-      console.log("ISO 3 = ", e.features[0].properties.adm0_a3);
+      // console.log("country name = ", e.features[0].properties.name);
+      // console.log("ISO 3 = ", e.features[0].properties.adm0_a3);
+
       instance.setState({
         name: e.features[0].properties.name,
         countryISO3: e.features[0].properties.adm0_a3,
