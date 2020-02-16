@@ -1,5 +1,7 @@
 * {
   margin: 0;
+  background-color: #405cb1;
+  color: white;
 }
 
 #map {
@@ -15,11 +17,31 @@
 }
 
 .mapContainer {
-  /* position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-  bottom: 0; */
   height: 550px;
   width: 100%;
+}
+
+.sidebarStyle {
+  display: inline-block;
+  /* position: absolute; */
+  top: 0;
+  left: 0;
+  margin: 12px;
+  background-color: #405cb1;
+  color: white;
+  z-index: 1 !important;
+  padding: 6px;
+  font-weight: bold;
+  border: 1px solid white;
+}
+
+.country-popup {
+  height: 200px;
+  width: 200px;
+  border: 2px solid black;
+}
+
+.country-popup img {
+  height: 50px;
+  width: 50px;
 }
