@@ -9,6 +9,7 @@ const csurf = require("csurf");
 const multer = require("multer");
 const uidSafe = require("uid-safe");
 const io = require("socket.io").listen(server);
+const mapboxgl = require("mapbox-gl");
 
 // HANDLING SECRETS
 let secrets;
@@ -78,6 +79,20 @@ const uploader = multer({
 app.get("/country/:code", (req, res) => {
   // retrieve information from the database
 });
+// app.get("/getMap", (req, res) => {
+//   mapboxgl.accessToken = secrets.MAPBOX_ACCESS_TOKEN;
+//   console.log('route /get');
+//   const lng = 0,
+//     lat = 0,
+//     zoom = 1;
+//   const map = new mapboxgl.Map({
+//     container: this.mapContainer,
+//     style: "mapbox://styles/mapbox/dark-v10",
+//     center: [lng, lat],
+//     zoom: zoom
+//   });
+//   res.json(map);
+// });
 /***********************************************************************/
 
 const goodreads = require("goodreads-api-node");
