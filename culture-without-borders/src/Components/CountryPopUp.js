@@ -1,5 +1,7 @@
 import React from "react";
 import axios from "../axios";
+import { Link } from "react-router-dom";
+// import Books from "./Books";
 
 export default class CountryPopUp extends React.Component {
   constructor(props) {
@@ -12,7 +14,9 @@ export default class CountryPopUp extends React.Component {
   }
 
   componentDidMount() {
-    //
+    // (async () => {
+    //   const { data } = await axios.get("/country/" + this.state.id);
+    // })();
   }
 
   render() {
@@ -25,6 +29,9 @@ export default class CountryPopUp extends React.Component {
           alt={this.state.name}
         ></img>
         <p onClick={this.props.closeModal}>X</p>
+        <Link to={`/books/${this.state.id}`}>
+          Literature from {this.state.name}
+        </Link>
       </div>
     );
   }

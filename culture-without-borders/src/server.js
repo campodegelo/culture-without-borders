@@ -9,7 +9,9 @@ const csurf = require("csurf");
 const multer = require("multer");
 const uidSafe = require("uid-safe");
 const io = require("socket.io").listen(server);
-const mapboxgl = require("mapbox-gl");
+const db = require("./db");
+const goodreads = require("goodreads-api-node");
+// const mapboxgl = require("mapbox-gl");
 
 // HANDLING SECRETS
 let secrets;
@@ -52,6 +54,15 @@ app.use(function(req, res, next) {
   next();
 });
 
+/************** GOODREADS API *********************/
+const myCredentials = {
+  key: secrets.MY_GOODREADS_KEY,
+  secret: secrets.MY_GOODREADS_SECRET
+};
+const gr = goodreads(myCredentials);
+
+/************** GOODREADS API *********************/
+
 /************** Multer - DO NOT TOUCH *********************/
 const diskStorage = multer.diskStorage({
   destination: function(req, file, callback) {
@@ -74,11 +85,58 @@ const uploader = multer({
 
 /***********************************************************************/
 // ROUTES
-// GET - /country/:code
-// Get the information about a country specified by its ISO country code
-app.get("/country/:code", (req, res) => {
+// GET /getBooksAndAuthors/:id
+// Get the Books and Authors from a specific country
+app.get("/getBooksAndAuthors/:id", (req, res) => {
   // retrieve information from the database
+  (async () => {
+    const books = await db.getBooksByCountry(req.params.id);
+    const authors = await db.getAuthorsByCountry(req.params.id);
+    console.log("books = ", books);
+    console.log("authors = ", authors);
+    res.json({
+      books,
+      authors
+    });
+  })();
 });
+// POST /searchBook
+// search for books by name
+app.post("/searchBook", (req, res) => {
+  // gr.getBooksByAuthor("175417").then(console.log);
+  console.log("book to be searched: ", req.body.book);
+  // console.log(gr.searchBooks);
+  gr.searchBooks({ query: req.body.book }).then(({ search }) => {
+    console.log("search results = ", search.results.work);
+    let arrayOfBooks = [];
+    search.results.work.map(list => {
+      // console.log("best_book = ", list.best_book);
+      arrayOfBooks.push(list.best_book);
+      return list.best_book;
+    });
+    console.log("arrayOfBooks: ", arrayOfBooks);
+    // console.log("search results length = ", search.results.work.length);
+    res.json(arrayOfBooks);
+  });
+});
+// POST /searchBook
+// search for books by name
+app.post("/searchAuthor", (req, res) => {
+  console.log("author to be searched: ", req.body.author);
+  console.log("gr = ", gr);
+  gr.searchAuthors(req.body.author).then(data => {
+    console.log("data = ", data);
+    console.log("search results = ", data.author);
+    gr.getAuthorInfo(data.author.id).then(data => {
+      console.log("search results = ", data);
+      res.json(data);
+    });
+  });
+});
+// ALL ROUTES
+// app.get("*", function(req, res) {
+//   res.redirect("/maps");
+// });
 // app.get("/getMap", (req, res) => {
 //   mapboxgl.accessToken = secrets.MAPBOX_ACCESS_TOKEN;
 //   console.log('route /get');
@@ -95,17 +153,11 @@ app.get("/country/:code", (req, res) => {
 // });
 /***********************************************************************/
 
-const goodreads = require("goodreads-api-node");
-
-const myCredentials = {
-  key: secrets.MY_GOODREADS_KEY,
-  secret: secrets.MY_GOODREADS_SECRET
-};
-
-const gr = goodreads(myCredentials);
-
-// returns all books by an author given the authorID
-gr.getBooksByAuthor("175417").then(console.log);
+//
+// const gr = goodreads(myCredentials);
+//
+// // returns all books by an author given the authorID
+// gr.getBooksByAuthor("175417").then(console.log);
 
 /***********************************************************************/
 

@@ -48,3 +48,22 @@
   height: 250px;
   width: 330px;
 }
+
+.country-popup p {
+  float: right;
+  font-size: 30px;
+  border: 1px solid white;
+  padding: 10px;
+  position: relative;
+  top: -70px;
+  border-radius: 10px;
+}
+
+.country-popup h1 {
+  font-size: 50px;
+}
+
+.books-screen img {
+  height: 300px;
+  width: 400px;
+}
