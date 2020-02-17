@@ -67,3 +67,21 @@
   height: 300px;
   width: 400px;
 }
+
+.books-container {
+  width: 50%;
+}
+
+#country {
+  position: absolute;
+  top: 350px;
+  right: 0;
+}
+
+#selectedItems {
+  display: flex;
+}
+
+#selectedItems img {
+  margin: 10px;
+}
