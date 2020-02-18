@@ -13,7 +13,9 @@ const { compare, hash } = require("./bcrypt");
 const db = require("./db");
 const goodreads = require("goodreads-api-node");
 const axios = require("axios");
-const SpotifyWebApi = require("spotify-web-api-node");
+// const SpotifyWebApi = require("spotify-web-api-node");
+// const Deezer = require("deezer-node-api");
+// const dz = new Deezer();
 // const mapboxgl = require("mapbox-gl");
 
 // HANDLING SECRETS
@@ -306,23 +308,37 @@ app.get("/popUpLiterature/:countryId", (req, res) => {
 // POST /searchArtist
 // search for artists by name
 // credentials are optional
-const spotifyApi = new SpotifyWebApi({
-  clientId: "72d55b4b25d248079d33d88f055ea875",
-  clientSecret: "0a83661a83974bd5ae38da5a7eb65dc4",
-  redirectUri: "http://www.example.com/callback"
-});
+// const spotifyApi = new SpotifyWebApi({
+//   clientId: "72d55b4b25d248079d33d88f055ea875",
+//   clientSecret: "0a83661a83974bd5ae38da5a7eb65dc4",
+//   redirectUri: "http://www.example.com/callback"
+// });
 
 // spotifyApi.setAccessToken("<your_access_token>");
 app.post("/searchArtist", (req, res) => {
   console.log("artist to search for: ", req.body.artist);
-  spotifyApi.getArtistAlbums("43ZHCT0cAZBISjO8DG9PnE").then(
-    function(data) {
-      console.log("Artist albums", data.body);
-    },
-    function(err) {
-      console.error(err);
-    }
-  );
+  // dz.findArtists(req.body.artist)
+  axios
+    .get(`https://api.deezer.com/search/artist/?q=${req.body.artist}`)
+    .then(response => {
+      console.log(response.data);
+    })
+    .catch(err => {
+      console.log("error", err);
+    });
+  // .then(result => {/
+  // console.log(result);
+  // })
+  // .catch(e => console.log(e));
+
+  // spotifyApi.getArtistAlbums("43ZHCT0cAZBISjO8DG9PnE").then(
+  //   function(data) {
+  //     console.log("Artist albums", data.body);
+  //   },
+  //   function(err) {
+  //     console.error(err);
+  //   }
+  // );
   // axios
   //   .get("https://elegant-croissant.glitch.me/spotify", {
   //     data: {
@@ -339,7 +355,18 @@ app.post("/searchArtist", (req, res) => {
 // search for albums by name
 app.post("/searchAlbums", (req, res) => {
   console.log("album to search for: ", req.body.album);
-  //
+  axios
+    .get(
+      "https://api.deezer.com/search/album/?q=" +
+        req.body.album +
+        "&index=0&limit=2"
+    )
+    .then(response => {
+      console.log(response.data);
+    })
+    .catch(err => {
+      console.log("error", err);
+    });
 });
 // ALL ROUTES
 // app.get("*", function(req, res) {

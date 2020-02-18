@@ -23,7 +23,7 @@ export default class SearchMusic extends React.Component {
         uploaded: null
       });
       axios
-        .post("/searchAlbum", { album: this.state.albumOrArtistToSearch })
+        .post("/searchAlbums", { album: this.state.albumOrArtistToSearch })
         .then(({ data }) => {
           console.log(data);
           this.setState({
