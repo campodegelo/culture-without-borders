@@ -2,14 +2,10 @@ import React from "react";
 import axios from "../axios";
 import CountrySearch from "./CountrySearch";
 
-export default class SearchLiterature extends React.Component {
+export default class SearchMusic extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      selectedItems: [],
-      showAdd: false,
-      uploaded: null
-    };
+    this.state = {};
   }
 
   handleChange(e) {
@@ -19,61 +15,61 @@ export default class SearchLiterature extends React.Component {
   }
 
   handleSubmit() {
-    if (this.state.bookOrAuthor === "book") {
+    if (this.state.albumOrArtist === "album") {
       this.setState({
-        authors: null,
+        artists: null,
         showAdd: false,
         selectedItems: [],
         uploaded: null
       });
       axios
-        .post("/searchBook", { book: this.state.bookOrAuthorToSearch })
+        .post("/searchAlbum", { album: this.state.albumOrArtistToSearch })
         .then(({ data }) => {
           console.log(data);
           this.setState({
-            books: data
+            albums: data
           });
         })
         .catch(err => {
-          console.log("error in /searchBook: ", err);
+          console.log("error in /searchAlbum: ", err);
         });
-    } else if (this.state.bookOrAuthor === "author") {
+    } else if (this.state.albumOrArtist === "artist") {
       this.setState({
-        books: null,
+        albums: null,
         showAdd: false,
         selectedItems: [],
         uploaded: null
       });
       axios
-        .post("/searchAuthor", { author: this.state.bookOrAuthorToSearch })
+        .post("/searchArtist", { artist: this.state.albumOrArtistToSearch })
         .then(({ data }) => {
           console.log(data);
           this.setState({
-            authors: data
+            artists: data
           });
         })
         .catch(err => {
-          console.log("error in /searchBook: ", err);
+          console.log("error in /searchalbum: ", err);
         });
     }
   }
 
   handleSelect(item, type) {
-    console.log("selected item is ", item);
-    console.log("state = ", this.state[type]);
-    let newState;
-    if (type === "books") {
-      newState = this.state[type].filter(el => el.id["_"] !== item.id["_"]);
-    } else if (type === "authors") {
-      newState = null;
-    }
-    console.log("newState: ", newState);
-    this.setState({
-      selectedItems: this.state.selectedItems.concat(item),
-      showAdd: true,
-      type: type,
-      [type]: newState
-    });
+    // console.log("selected item is ", item);
+    // console.log("state = ", this.state[type]);
+    // let newState;
+    // if (type === "albums") {
+    //   newState = this.state[type].filter(el => el.id["_"] !== item.id["_"]);
+    // } else if (type === "artists") {
+    //   newState = null;
+    // }
+    // console.log("newState: ", newState);
+    // this.setState({
+    //   selectedItems: this.state.selectedItems.concat(item),
+    //   showAdd: true,
+    //   type: type,
+    //   [type]: newState
+    // });
   }
 
   render() {
@@ -81,35 +77,35 @@ export default class SearchLiterature extends React.Component {
       <div>
         <input
           type="text"
-          name="bookOrAuthorToSearch"
-          placeholder="search for a book"
+          name="albumOrArtistToSearch"
+          placeholder="search for an album"
           onChange={e => this.handleChange(e)}
         ></input>
         <br></br>
         <input
           type="radio"
-          name="bookOrAuthor"
-          value="book"
+          name="albumOrArtist"
+          value="album"
           onChange={e => this.handleChange(e)}
         ></input>
-        <label>Book</label>
+        <label>Album</label>
         <input
           type="radio"
-          name="bookOrAuthor"
-          value="author"
+          name="albumOrArtist"
+          value="artist"
           onChange={e => this.handleChange(e)}
         ></input>
-        <label>Author</label>
+        <label>Artist</label>
         <br></br>
         <button onClick={() => this.handleSubmit()}>search</button>
 
-        {this.state.books && (
-          <div className="books-container">
-            {this.state.books.map(book => (
-              <div className="book" key={book.id["_"]}>
-                <h2>{book.title}</h2>
-                <img src={book.image_url} alt={book.title} />
-                <button onClick={() => this.handleSelect(book, "books")}>
+        {this.state.albums && (
+          <div className="albums-container">
+            {this.state.albums.map(album => (
+              <div className="album" key={album.id["_"]}>
+                <h2>{album.title}</h2>
+                <img src={album.image_url} alt={album.title} />
+                <button onClick={() => this.handleSelect(album, "albums")}>
                   select this item
                 </button>
               </div>
@@ -117,20 +113,20 @@ export default class SearchLiterature extends React.Component {
           </div>
         )}
 
-        {this.state.authors && (
-          <div className="author-container" key={this.state.authors.id}>
-            <h2>{this.state.authors.name}</h2>
+        {this.state.artists && (
+          <div className="artist-container" key={this.state.artists.id}>
+            <h2>{this.state.artists.name}</h2>
             <img
-              src={this.state.authors.large_image_url}
-              alt={this.state.authors.name}
+              src={this.state.artists.large_image_url}
+              alt={this.state.artists.name}
             />
             <button
-              onClick={() => this.handleSelect(this.state.authors, "authors")}
+              onClick={() => this.handleSelect(this.state.artists, "artists")}
             >
               select this item
             </button>
             <a
-              href={this.state.authors.link}
+              href={this.state.artists.link}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -155,16 +151,16 @@ export default class SearchLiterature extends React.Component {
                 this.setState({
                   showAdd: false,
                   uploaded: e,
-                  books: null,
-                  authors: null
+                  albums: null,
+                  artists: null
                 })
               }
               unselectHandler={(item, type) => {
                 // const newState = this.state[type].concat(item);
                 let newState;
-                if (type === "books") {
+                if (type === "albums") {
                   newState = [item].concat(this.state[type]);
-                } else if (type === "authors") {
+                } else if (type === "artists") {
                   newState = item;
                 }
                 const newSelected = this.state.selectedItems.filter(

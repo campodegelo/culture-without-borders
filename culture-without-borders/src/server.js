@@ -9,8 +9,11 @@ const csurf = require("csurf");
 const multer = require("multer");
 const uidSafe = require("uid-safe");
 const io = require("socket.io").listen(server);
+const { compare, hash } = require("./bcrypt");
 const db = require("./db");
 const goodreads = require("goodreads-api-node");
+const axios = require("axios");
+const SpotifyWebApi = require("spotify-web-api-node");
 // const mapboxgl = require("mapbox-gl");
 
 // HANDLING SECRETS
@@ -34,7 +37,7 @@ app.use(
   })
 );
 
-// COOKIES HANDLES
+// COOKIES HANDLER
 const cookieSessionMiddleware = cookieSession({
   secret: secrets.SESSION_SECRET,
   maxAge: 1000 * 60 * 60 * 24 * 90
@@ -43,10 +46,10 @@ app.use(cookieSessionMiddleware);
 io.use(function(socket, next) {
   cookieSessionMiddleware(socket.request, socket.request.res, next);
 });
-
-// SERVE JSON
+//
+// // SERVE JSON
 app.use(express.json());
-
+//
 // CSURF MIDDLEWARE
 app.use(csurf());
 app.use(function(req, res, next) {
@@ -81,10 +84,102 @@ const uploader = multer({
     fileSize: 2097152
   }
 });
+
+axios.create({
+  xsrfCookieName: "mytoken",
+  xsrfHeaderName: "csrf-token"
+});
+
 /************** Multer - DO NOT TOUCH *********************/
 
 /***********************************************************************/
 // ROUTES
+// USER - GET
+app.get("/user", (req, res) => {
+  db.getUserInfo(req.session.userId)
+    .then(data => {
+      // console.log("user data from getUserInfo: ", data);
+      res.json(data[0]);
+    })
+    .catch(err => console.log("err in getUserInfo: ", err));
+});
+// REGISTER - POST
+app.post("/register", (req, res) => {
+  const { first, last, email, countryCode, password, confirm } = req.body;
+  console.log("Input to /register : ", req.body);
+  // check for empty inputs
+  if (!first || !last || !email || !password || !confirm || !countryCode) {
+    // console.log("empty input");
+    res.json({
+      success: false
+    });
+  } else {
+    // check if type pwd and the confirmation match
+    if (!(password === confirm)) {
+      res.json({
+        success: false
+      });
+    } else {
+      // check if email is already registered
+      db.userExists(email).then(data => {
+        if (data.length > 0) {
+          // user is already in the db
+          res.json({
+            success: false
+          });
+        } else {
+          // hash the password
+          hash(password).then(hashedPass => {
+            // console.log("password hashed");
+            db.insertNewUser(first, last, countryCode, email, hashedPass)
+              .then(data => {
+                // set a cookie for the new user
+                req.session.userId = data[0].id;
+                res.json({
+                  success: true
+                });
+              })
+              .catch(err => console.log("err in insertNewUser : ", err));
+          });
+        }
+      });
+    }
+  }
+});
+// LOGIN - POST
+app.post("/login", (req, res) => {
+  db.userExists(req.body.email).then(data => {
+    // if results array > 0, means the user was found in the db
+    if (data.length > 0) {
+      const userId = data[0].id;
+      compare(req.body.password, data[0].password).then(data => {
+        if (data) {
+          // password is correct and cookie will be created
+          req.session.userId = userId;
+          res.json({
+            success: true
+          });
+        } else {
+          // passwords do not match
+          res.json({
+            success: false
+          });
+        }
+      });
+    } else {
+      // user is not registered
+      res.json({
+        success: false
+      });
+    }
+  });
+});
+// LOGOUT - GET
+app.get("/logout", (req, res) => {
+  req.session.userId = null;
+  delete req.session;
+  res.redirect("/");
+});
 // GET /getBooksAndAuthors/:id
 // Get the Books and Authors from a specific country
 app.get("/getBooksAndAuthors/:id", (req, res) => {
@@ -92,8 +187,8 @@ app.get("/getBooksAndAuthors/:id", (req, res) => {
   (async () => {
     const books = await db.getBooksByCountry(req.params.id);
     const authors = await db.getAuthorsByCountry(req.params.id);
-    console.log("books = ", books);
-    console.log("authors = ", authors);
+    // console.log("books = ", books);
+    // console.log("authors = ", authors);
     res.json({
       books,
       authors
@@ -132,6 +227,119 @@ app.post("/searchAuthor", (req, res) => {
       res.json(data);
     });
   });
+});
+// POST / addAuthor
+// insert an author to the table for the specified country
+app.post("/addAuthor", (req, res) => {
+  console.log("item to be inserted: ", req.body.author);
+  console.log("country: ", req.body.country);
+  const { author, country } = req.body;
+  db.insertAuthor(
+    req.session.userId,
+    author.name,
+    author.image_url,
+    author.link,
+    country
+  )
+    .then(data => {
+      console.log("data from /insertAuthor : ", data);
+      res.json({
+        success: true
+      });
+    })
+    .catch(e => {
+      console.log("error in /insertAuthor : ", e);
+      res.json({
+        success: false
+      });
+    });
+});
+// POST / addBoks
+// insert selected book in the table for the specified country
+app.post("/addBooks", (req, res) => {
+  console.log("item to be inserted: ", req.body.books);
+  console.log("country: ", req.body.country);
+  const { books, country } = req.body;
+  // loop through the array of countries and insert them into the books table
+  for (let i = 0; i < books.length; i++) {
+    db.insertBooks(
+      req.session.userId,
+      books[i].author.name,
+      books[i].title,
+      books[i].id["_"],
+      books[i].image_url,
+      country
+    )
+      .then(data => {
+        console.log("data from /insertAuthor : ", data);
+      })
+      .catch(e => {
+        console.log("error in /insertAuthor : ", e);
+        // res.json({
+        // success: false
+        // });
+      });
+  }
+  res.json({
+    success: true
+  });
+  // const { data } = books.map(book => {
+  //   db.insertBook("eisfeld", book.author.name, book.title, book.image_url);
+  // });
+});
+// GET / popUpLiterature/:countryId
+// find latest books and authors for a specific country
+app.get("/popUpLiterature/:countryId", (req, res) => {
+  const { countryId } = req.params;
+  console.log("country to be searched: ", countryId);
+  (async () => {
+    const books = await db.getLatestBooks(countryId);
+    const authors = await db.getLatestAuthors(countryId);
+    console.log("books = ", books);
+    console.log("authors = ", authors);
+    res.json({
+      books,
+      authors
+    });
+  })();
+});
+// POST /searchArtist
+// search for artists by name
+// credentials are optional
+const spotifyApi = new SpotifyWebApi({
+  clientId: "72d55b4b25d248079d33d88f055ea875",
+  clientSecret: "0a83661a83974bd5ae38da5a7eb65dc4",
+  redirectUri: "http://www.example.com/callback"
+});
+
+// spotifyApi.setAccessToken("<your_access_token>");
+app.post("/searchArtist", (req, res) => {
+  console.log("artist to search for: ", req.body.artist);
+  spotifyApi.getArtistAlbums("43ZHCT0cAZBISjO8DG9PnE").then(
+    function(data) {
+      console.log("Artist albums", data.body);
+    },
+    function(err) {
+      console.error(err);
+    }
+  );
+  // axios
+  //   .get("https://elegant-croissant.glitch.me/spotify", {
+  //     data: {
+  //       query: req.body.artist,
+  //       type: "artist"
+  //     }
+  //   })
+  //   .then(data => {
+  //     console.log("data from /searchArtist ", data);
+  //   })
+  //   .catch(e => console.log("error in /searchArtist", e));
+});
+// POST /searchAlbum
+// search for albums by name
+app.post("/searchAlbums", (req, res) => {
+  console.log("album to search for: ", req.body.album);
+  //
 });
 // ALL ROUTES
 // app.get("*", function(req, res) {

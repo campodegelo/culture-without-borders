@@ -9,6 +9,7 @@
     "@testing-library/user-event": "^7.2.1",
     "aws-sdk": "^2.618.0",
     "axios": "^0.19.2",
+    "bcryptjs": "^2.4.3",
     "compression": "^1.7.4",
     "cookie-session": "^1.4.0",
     "csurf": "^1.11.0",
@@ -33,6 +34,7 @@
     "redux-promise": "^0.6.0",
     "socket.io": "^2.3.0",
     "spiced-pg": "^1.0.0",
+    "spotify-web-api-node": "^4.0.0",
     "uid-safe": "^2.1.5",
     "xml-js": "^1.6.11"
   },
