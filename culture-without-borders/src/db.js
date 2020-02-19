@@ -92,6 +92,36 @@ exports.insertAuthor = (userId, author, image, url, country) => {
     )
     .then(({ rows }) => rows);
 };
+// insert new Albums
+exports.insertAlbum = (
+  userId,
+  artist,
+  albumName,
+  albumId,
+  image,
+  url,
+  country
+) => {
+  return db
+    .query(
+      `INSERT INTO albums (user_id, artist, album_name, album_id, image, url, country)
+    VALUES ($1, $2, $3, $4, $5, $6, $7)
+    RETURNING id`,
+      [userId, artist, albumName, albumId, image, url, country]
+    )
+    .then(({ rows }) => rows);
+};
+// insert new Artists
+exports.insertArtist = (userId, artistName, artistId, image, url, country) => {
+  return db
+    .query(
+      `INSERT INTO artists (user_id, artist_name, artist_id, image, url, country)
+    VALUES ($1, $2, $3, $4, $5, $6)
+    RETURNING id`,
+      [userId, artistName, artistId, image, url, country]
+    )
+    .then(({ rows }) => rows);
+};
 // get the last 5 books from a specific country
 exports.getLatestBooks = countryId => {
   return db

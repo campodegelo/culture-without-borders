@@ -62,6 +62,40 @@ export default class CountrySearch extends React.Component {
           });
         }
       })();
+    } else if (this.props.type === "albums") {
+      console.log("item to be inserted: ", this.props.selectedItems);
+      (async () => {
+        const { data } = await axios.post("/addAlbums", {
+          albums: this.props.selectedItems,
+          country: this.state.country
+        });
+        console.log("data from /addAlbums: ", data);
+        if (data.success) {
+          // clear the states
+          this.props.closeModal(this.state.country);
+        } else {
+          this.setState({
+            error: true
+          });
+        }
+      })();
+    } else if (this.props.type === "artists") {
+      console.log("item to be inserted: ", this.props.selectedItems);
+      (async () => {
+        const { data } = await axios.post("/addArtists", {
+          artists: this.props.selectedItems,
+          country: this.state.country
+        });
+        console.log("data from /addArtists: ", data);
+        if (data.success) {
+          // clear the states
+          this.props.closeModal(this.state.country);
+        } else {
+          this.setState({
+            error: true
+          });
+        }
+      })();
     }
   }
 

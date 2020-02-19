@@ -351,6 +351,55 @@ app.post("/searchAlbum", (req, res) => {
       console.log("error in /searchAlbums", err);
     });
 });
+// POST //addAlbums
+// add selected albums to the table albums according to the country
+app.post("/addAlbums", (req, res) => {
+  console.log("albums to be inserted: ", req.body.albums);
+  console.log("country to be added: ", req.body.country);
+  const { albums, country } = req.body;
+  for (let i = 0; i < albums.length; i++) {
+    db.insertAlbum(
+      req.session.userId,
+      albums[i].artist.name,
+      albums[i].title,
+      albums[i].id,
+      albums[i].cover_medium,
+      albums[i].link,
+      country
+    )
+      .then(data => {
+        console.log("data from /addAlbum: ", data);
+      })
+      .catch(e => console.log("error in /addAlbums: ", e));
+  }
+  res.json({
+    success: true
+  });
+});
+// POST //addArtists
+// add selected artists to the table artists according to the country
+app.post("/addArtists", (req, res) => {
+  console.log("artists to be inserted: ", req.body.artists);
+  console.log("country to be added: ", req.body.country);
+  const { artists, country } = req.body;
+  for (let i = 0; i < artists.length; i++) {
+    db.insertArtist(
+      req.session.userId,
+      artists[i].name,
+      artists[i].id,
+      artists[i].picture_medium,
+      artists[i].link,
+      country
+    )
+      .then(data => {
+        console.log("data from /addAlbum: ", data);
+      })
+      .catch(e => console.log("error in /addArtists: ", e));
+  }
+  res.json({
+    success: true
+  });
+});
 // ALL ROUTES
 // app.get("*", function(req, res) {
 //   res.redirect("/maps");
