@@ -17,7 +17,7 @@ export default class Maps extends React.Component {
     super(props);
     this.state = {
       lng: 0,
-      lat: 0,
+      lat: 40,
       zoom: 1
     };
   }

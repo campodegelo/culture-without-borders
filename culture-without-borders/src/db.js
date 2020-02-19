@@ -11,7 +11,7 @@ const db = spicedPg(
 exports.getUserInfo = id => {
   return db
     .query(
-      `SELECT * FROM users
+      `SELECT id, first, last, image FROM users
             WHERE id=$1`,
       [id]
     )

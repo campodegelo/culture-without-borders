@@ -7,7 +7,7 @@ export default class CountryPopUp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: this.props.name,
+      name: this.props.name.toUpperCase(),
       id: this.props.countryISO3,
       url: "/flags-big-iso3/" + this.props.countryISO3 + ".png",
       books: null,
@@ -34,6 +34,7 @@ export default class CountryPopUp extends React.Component {
           src={this.state.url}
           key={this.state.id}
           alt={this.state.name}
+          id="flag"
         ></img>
         <p onClick={this.props.closeModal}>X</p>
 
@@ -55,7 +56,7 @@ export default class CountryPopUp extends React.Component {
 
           <div className="small-container">
             {this.state.authors && (
-              <div className="icons-pop">
+              <div className="icons-pop-music">
                 {this.state.authors.map(author => (
                   <div className="small-item" key={author.id}>
                     <div className="overlay">

@@ -109,12 +109,16 @@ axios.create({
 // });
 // USER - GET
 app.get("/user", (req, res) => {
-  db.getUserInfo(req.session.userId)
-    .then(data => {
-      // console.log("user data from getUserInfo: ", data);
-      res.json(data[0]);
-    })
-    .catch(err => console.log("err in getUserInfo: ", err));
+  if (req.session && typeof req.session.userId !== "undefined") {
+    db.getUserInfo(req.session.userId)
+      .then(data => {
+        // console.log("user data from getUserInfo: ", data);
+        res.json(data[0]);
+      })
+      .catch(err => console.log("err in getUserInfo: ", err));
+  } else {
+    res.json({ success: false });
+  }
 });
 // REGISTER - POST
 app.post("/register", (req, res) => {
@@ -192,6 +196,7 @@ app.get("/logout", (req, res) => {
   req.session.userId = null;
   delete req.session;
   res.redirect("/");
+  // window.location.pathname = "/";
 });
 // GET /getBooksAndAuthors/:id
 // Get the Books and Authors from a specific country

@@ -1,7 +1,4 @@
 import React, { useEffect } from "react";
-// import logo from "./logo.svg";
-// import "./App.css";
-// import WorldMap from "./Components/WorldMap";
 import { BrowserRouter, HashRouter, Link, Route } from "react-router-dom";
 import axios from "./axios";
 import Maps from "./Components/Map";
@@ -19,7 +16,9 @@ export default class App extends React.Component {
   }
   componentDidMount() {
     axios.get("/user").then(({ data }) => {
-      this.setState(data);
+      if (data.success !== false) {
+        this.setState({ loggedUser: data });
+      }
     });
   }
   render() {
@@ -28,6 +27,17 @@ export default class App extends React.Component {
         <div className="App">
           <header className="App-header">
             <h1>CULTURE WITHOUT BORDERS</h1>
+            {!this.state.loggedUser && (
+              <div className="menu-user">
+                <Link to="/register">Sign up</Link>
+                <Link to="/login">Sign in</Link>
+              </div>
+            )}
+            {this.state.loggedUser && (
+              <div className="menu-user">
+                <a href="/logout">logout</a>
+              </div>
+            )}
           </header>
           {/* <Maps /> */}
           <Route exact path="/" component={Maps} />

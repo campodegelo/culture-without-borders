@@ -14,6 +14,8 @@ const store = createStore(
   composeWithDevTools(applyMiddleware(reduxPromise))
 );
 
+// const isLoggedIn = window.location.pathname !== "/welcome";
+
 let elem = (
   <Provider store={store}>
     <App />

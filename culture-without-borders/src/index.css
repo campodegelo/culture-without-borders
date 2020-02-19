@@ -1,8 +1,22 @@
 * {
   margin: 0;
   /* background-color: #405cb1; */
-  background-color: #efe6d6;
+  /* background-color: #efe6d6; */
   /* color: white; */
+}
+
+.App-header {
+  color: #d14545;
+  background-color: black;
+  height: 55px;
+  border: 5px solid #d14545;
+}
+
+.App-header h1 {
+  font-family: "Lacquer", sans-serif;
+  position: absolute;
+  left: 25px;
+  font-size: 40px;
 }
 
 .loading {
@@ -12,6 +26,33 @@
   /* background-color: black; */
   border-radius: 50%;
   /* opacity: 50%; */
+}
+
+.menu-user {
+  width: 200px;
+  float: right;
+  text-align: right;
+  /* margin-right: 20px; */
+  height: 60px;
+  position: absolute;
+  right: 30px;
+  top: 20px;
+}
+
+.menu-user a {
+  background-color: #d14545;
+  color: #efe6d6;
+  text-decoration: none;
+  border: 1px solid black;
+  border-radius: 15px;
+  /* width: 98px; */
+  padding: 5px;
+  font-size: 18px;
+  margin: 5px;
+}
+
+.menu-user a:hover {
+  background-color: darkred;
 }
 
 #map {
@@ -26,6 +67,7 @@
   height: 90%;
   width: 100%;
   bottom: 0;
+  top: 65px;
 }
 
 .sidebarStyle {
@@ -44,15 +86,16 @@
 
 .country-popup {
   position: absolute;
-  top: 100px;
+  top: 70px;
   left: 40px;
   right: 40px;
   padding: 40px;
   margin: 10px;
   border-radius: 20px;
-  height: 400px;
+  height: 70%;
+  background-color: #efe6d6;
   /* width: 200px; */
-  border: 2px solid white;
+  border: 2px solid #d14545;
   z-index: 2;
 }
 
@@ -63,16 +106,28 @@
 
 .country-popup p {
   float: right;
-  font-size: 30px;
-  border: 1px solid white;
+  font-size: 13px;
+  border: 1px solid black;
+  background-color: #d14545;
+  color: #efe6d6;
   padding: 10px;
-  position: relative;
-  top: -70px;
+  position: absolute;
+  top: 15px;
   border-radius: 10px;
+  text-align: center;
+  right: 15px;
+}
+
+.country-popup p:hover {
+  background-color: black;
+  border: 1px solid #d14545;
 }
 
 .country-popup h1 {
-  font-size: 50px;
+  font-size: 60px;
+  position: absolute;
+  top: 30px;
+  left: 90px;
 }
 
 .books-screen img {
@@ -82,6 +137,12 @@
 
 .books-container {
   width: 50%;
+}
+
+#flag {
+  position: absolute;
+  top: 100px;
+  left: 40px;
 }
 
 #country {
@@ -126,12 +187,26 @@
 }
 
 .small-container {
-  /* flex-direction: column; */
-  border: 1px solid white;
+  width: 100%;
+  height: 50%;
+  border: 1px solid black;
+  border-radius: 10px;
 }
 
 .icons-pop {
   display: flex;
+  flex-wrap: wrap;
+  position: absolute;
+  top: 0;
+  right: 0px;
+}
+
+.icons-pop-music {
+  display: flex;
+  flex-wrap: wrap;
+  position: absolute;
+  top: 100px;
+  right: 0px;
 }
 
 .small-item {
@@ -145,8 +220,11 @@
 }
 
 #previous-info {
-  width: 55%;
+  width: 58%;
+  height: 80%;
   position: absolute;
   top: 100px;
   left: 400px;
+  /* border: 1px solid black; */
+  /* border-radius: 10px; */
 }
