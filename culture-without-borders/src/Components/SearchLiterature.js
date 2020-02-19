@@ -26,8 +26,14 @@ export default class SearchLiterature extends React.Component {
         selectedItems: [],
         uploaded: null
       });
+
+      // input is normalized in order to avoid accentuation
       axios
-        .post("/searchBook", { book: this.state.bookOrAuthorToSearch })
+        .post("/searchBook", {
+          book: this.state.bookOrAuthorToSearch
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+        })
         .then(({ data }) => {
           console.log(data);
           this.setState({
@@ -44,8 +50,14 @@ export default class SearchLiterature extends React.Component {
         selectedItems: [],
         uploaded: null
       });
+
+      // input is normalized in order to avoid accentuation
       axios
-        .post("/searchAuthor", { author: this.state.bookOrAuthorToSearch })
+        .post("/searchAuthor", {
+          author: this.state.bookOrAuthorToSearch
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+        })
         .then(({ data }) => {
           console.log(data);
           this.setState({

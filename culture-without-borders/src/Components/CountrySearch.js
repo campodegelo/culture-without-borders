@@ -25,6 +25,7 @@ export default class CountrySearch extends React.Component {
     console.log("Lets push it");
     console.log("selected country : ", this.state.country);
     console.log("type", this.props.type);
+
     if (this.props.type === "authors") {
       // push  into authors tables
       console.log("item to be inserted: ", this.props.selectedItems[0]);
@@ -71,8 +72,17 @@ export default class CountrySearch extends React.Component {
           {this.props.selectedItems && (
             <div id="selectedItems">
               {this.props.selectedItems.map(item => (
-                <div key={item.image_url}>
-                  <img src={item.image_url} alt={item.title} />
+                <div
+                  key={
+                    item.image_url || item.picture_medium || item.cover_medium
+                  }
+                >
+                  <img
+                    src={
+                      item.image_url || item.picture_medium || item.cover_medium
+                    }
+                    alt={item.title}
+                  />
                   <button onClick={() => this.handleUnSelect(item)}>
                     unselect item
                   </button>

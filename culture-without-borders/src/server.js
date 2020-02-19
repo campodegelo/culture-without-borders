@@ -96,6 +96,21 @@ axios.create({
 
 /***********************************************************************/
 // ROUTES
+// GET - /getMap
+// app.get("/getMap", (req, res) => {
+//   const mapboxgl = require("mapbox-gl");
+//   mapboxgl.accessToken =
+//     "pk.eyJ1IjoiY2FtcG9kZWdlbG8iLCJhIjoiY2s2b3lpdDJwMDkzaTNrcW8weno3ZzljciJ9.ggdQUJLnLnWQ92IjWlFK5g";
+//   const map = new mapboxgl.Map({
+//     container: this.mapContainer,
+//     // style: "mapbox://styles/mapbox/dark-v10",
+//     // style: "mapbox://styles/campodegelo/ck6peiqju12nc1is9h04l2lg3",
+//     style: "mapbox://styles/campodegelo/ck6pf5nj012wt1io6pt1i2cb9",
+//     center: [0, 0],
+//     zoom: 1
+//   });
+//   res.json({ map: map });
+// });
 // USER - GET
 app.get("/user", (req, res) => {
   db.getUserInfo(req.session.userId)
@@ -277,17 +292,11 @@ app.post("/addBooks", (req, res) => {
       })
       .catch(e => {
         console.log("error in /insertAuthor : ", e);
-        // res.json({
-        // success: false
-        // });
       });
   }
   res.json({
     success: true
   });
-  // const { data } = books.map(book => {
-  //   db.insertBook("eisfeld", book.author.name, book.title, book.image_url);
-  // });
 });
 // GET / popUpLiterature/:countryId
 // find latest books and authors for a specific country
@@ -307,65 +316,39 @@ app.get("/popUpLiterature/:countryId", (req, res) => {
 });
 // POST /searchArtist
 // search for artists by name
-// credentials are optional
-// const spotifyApi = new SpotifyWebApi({
-//   clientId: "72d55b4b25d248079d33d88f055ea875",
-//   clientSecret: "0a83661a83974bd5ae38da5a7eb65dc4",
-//   redirectUri: "http://www.example.com/callback"
-// });
-
-// spotifyApi.setAccessToken("<your_access_token>");
 app.post("/searchArtist", (req, res) => {
   console.log("artist to search for: ", req.body.artist);
   // dz.findArtists(req.body.artist)
   axios
-    .get(`https://api.deezer.com/search/artist/?q=${req.body.artist}`)
+    .get(
+      "https://api.deezer.com/search/artist/?q=" +
+        req.body.artist +
+        '"&index=0&limit=5"'
+    )
     .then(response => {
       console.log(response.data);
+      res.json(response.data);
     })
     .catch(err => {
-      console.log("error", err);
+      console.log("error in searchArtist", err);
     });
-  // .then(result => {/
-  // console.log(result);
-  // })
-  // .catch(e => console.log(e));
-
-  // spotifyApi.getArtistAlbums("43ZHCT0cAZBISjO8DG9PnE").then(
-  //   function(data) {
-  //     console.log("Artist albums", data.body);
-  //   },
-  //   function(err) {
-  //     console.error(err);
-  //   }
-  // );
-  // axios
-  //   .get("https://elegant-croissant.glitch.me/spotify", {
-  //     data: {
-  //       query: req.body.artist,
-  //       type: "artist"
-  //     }
-  //   })
-  //   .then(data => {
-  //     console.log("data from /searchArtist ", data);
-  //   })
-  //   .catch(e => console.log("error in /searchArtist", e));
 });
 // POST /searchAlbum
 // search for albums by name
-app.post("/searchAlbums", (req, res) => {
+app.post("/searchAlbum", (req, res) => {
   console.log("album to search for: ", req.body.album);
   axios
     .get(
       "https://api.deezer.com/search/album/?q=" +
         req.body.album +
-        "&index=0&limit=2"
+        "&index=0&limit=5"
     )
     .then(response => {
       console.log(response.data);
+      res.json(response.data);
     })
     .catch(err => {
-      console.log("error", err);
+      console.log("error in /searchAlbums", err);
     });
 });
 // ALL ROUTES
