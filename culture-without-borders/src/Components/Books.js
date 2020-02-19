@@ -35,27 +35,33 @@ export default class Books extends React.Component {
 
   render() {
     return (
-      <div className="books-screen">
+      <div className="albums-screen">
         <h1>Book Page</h1>
         <img
           src={`/flags-big-iso3/${this.props.match.params.id}.png`}
           alt={this.props.match.params.id}
+          className="big-flag"
         />
 
         <Link to={"/searchLiterature"}>
           Want to add more books or authors? Click here!
         </Link>
 
-        <div id="previous">
+        <div className="previous">
           <div className="big-container">
+            <h2>BOOKS</h2>
             {this.state.books && (
               <div className="icons-big">
                 {this.state.books.map(book => (
                   <div className="big-item" key={book.book_id}>
                     <div className="overlay-big">
-                      <h2>{book.book_name}</h2>
+                      <h3>{book.book_name}</h3>
                     </div>
-                    <img src={book.image} alt={book.book_name}></img>
+                    <img
+                      className="book-size"
+                      src={book.image}
+                      alt={book.book_name}
+                    ></img>
                   </div>
                 ))}
                 {this.state.showMoreBooks && <button>show more books</button>}
@@ -64,14 +70,19 @@ export default class Books extends React.Component {
           </div>
 
           <div className="big-container">
+            <h2>AUTHORS</h2>
             {this.state.authors && (
               <div className="icons-big">
                 {this.state.authors.map(author => (
                   <div className="big-item" key={author.id}>
                     <div className="overlay-big">
-                      <h2>{author.author}</h2>
+                      <h3>{author.author}</h3>
                     </div>
-                    <img src={author.image} alt={author.author}></img>
+                    <img
+                      className="author-size"
+                      src={author.image}
+                      alt={author.author}
+                    ></img>
                   </div>
                 ))}
                 {this.state.showMoreAuthors && (

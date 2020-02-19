@@ -70,6 +70,41 @@ exports.getAuthorsByCountry = country => {
     )
     .then(({ rows }) => rows);
 };
+exports.getAlbumsByCountry = country => {
+  return db
+    .query(
+      `SELECT *,
+      (
+          SELECT id from albums
+          WHERE country=$1 AND error=false
+          ORDER BY id ASC
+          LIMIT 1
+      ) AS "lowestId"
+       FROM albums
+      WHERE country=$1 AND error=false
+      ORDER BY id DESC LIMIT 10`,
+      [country]
+    )
+    .then(({ rows }) => rows);
+};
+// Get 10 latest authors from a country
+exports.getArtistsByCountry = country => {
+  return db
+    .query(
+      `SELECT *,
+      (
+          SELECT id from artists
+          WHERE country=$1 AND error=false
+          ORDER BY id ASC
+          LIMIT 1
+      ) AS "lowestId"
+       FROM artists
+        WHERE country=$1 AND error=false
+        ORDER BY id DESC LIMIT 10`,
+      [country]
+    )
+    .then(({ rows }) => rows);
+};
 // Insert new book
 exports.insertBooks = (userId, author, bookName, bookId, image, country) => {
   return db

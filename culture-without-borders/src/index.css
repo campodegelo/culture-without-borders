@@ -1,22 +1,30 @@
 * {
   margin: 0;
   /* background-color: #405cb1; */
-  /* background-color: #efe6d6; */
+  /* background-color: black; */
   /* color: white; */
 }
 
 .App-header {
   color: #d14545;
   background-color: black;
-  height: 55px;
+  height: 70px;
   border: 5px solid #d14545;
 }
 
 .App-header h1 {
-  font-family: "Lacquer", sans-serif;
+  /* font-family: "Lacquer", sans-serif; */
+  font-family: "Krona One", sans-serif;
   position: absolute;
   left: 25px;
   font-size: 40px;
+  font-size: 50px;
+  top: 8px;
+}
+
+.App-header a {
+  text-decoration: none;
+  color: #d14545;
 }
 
 .loading {
@@ -30,24 +38,23 @@
 
 .menu-user {
   width: 200px;
-  float: right;
+  /* float: right; */
   text-align: right;
   /* margin-right: 20px; */
   height: 60px;
   position: absolute;
   right: 30px;
-  top: 20px;
+  top: 25px;
 }
 
 .menu-user a {
   background-color: #d14545;
-  color: #efe6d6;
+  color: black;
   text-decoration: none;
   border: 1px solid black;
   border-radius: 15px;
-  /* width: 98px; */
-  padding: 5px;
-  font-size: 18px;
+  padding: 10px;
+  font-size: 22px;
   margin: 5px;
 }
 
@@ -67,7 +74,7 @@
   height: 90%;
   width: 100%;
   bottom: 0;
-  top: 65px;
+  top: 80px;
 }
 
 .sidebarStyle {
@@ -227,4 +234,81 @@
   left: 400px;
   /* border: 1px solid black; */
   /* border-radius: 10px; */
+}
+
+.big-container {
+  width: 50%;
+  /* display: flex; */
+}
+
+.icons-big {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.big-item {
+  width: 300px;
+  background-color: #efe6d6;
+  border: 1px solid black;
+  border-radius: 10px;
+  margin: 10px;
+  padding: 20px;
+}
+
+.big-flag {
+  width: 100%;
+  opacity: 40%;
+}
+
+.previous {
+  width: 98%;
+  height: 80%;
+  display: flex;
+  /* flex-direction: column; */
+  position: absolute;
+  top: 15%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.big-item img {
+  object-fit: cover;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.big-container h2 {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  width: fit-content;
+  font-size: 30px;
+  background-color: white;
+  border: 1px solid black;
+  padding: 5px;
+}
+
+.albums-screen h1 {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 50px;
+}
+
+.book-size {
+  height: 250px;
+  width: 200px;
+}
+
+.author-size {
+  height: 250px;
+  width: 250px;
+}
+
+.big-item h3 {
+  font-size: 25px;
+  text-align: center;
+  margin: 5px;
 }

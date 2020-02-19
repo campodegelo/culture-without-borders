@@ -213,6 +213,21 @@ app.get("/getBooksAndAuthors/:id", (req, res) => {
     });
   })();
 });
+// GET /getArtistsAndAlbums
+// get artists and albums from a specific country
+app.get("/getArtistsAndAlbums/:id", (req, res) => {
+  // retrieve information from the database
+  (async () => {
+    const albums = await db.getAlbumsByCountry(req.params.id);
+    const artists = await db.getArtistsByCountry(req.params.id);
+    // console.log("books = ", books);
+    // console.log("authors = ", authors);
+    res.json({
+      albums,
+      artists
+    });
+  })();
+});
 // POST /searchBook
 // search for books by name
 app.post("/searchBook", (req, res) => {

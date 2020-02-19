@@ -26,7 +26,10 @@ export default class App extends React.Component {
       <HashRouter>
         <div className="App">
           <header className="App-header">
-            <h1>CULTURE WITHOUT BORDERS</h1>
+            {/* <img src="/img/loading4.gif" alt="loadingheader"></img> */}
+            <Link to="/" id="title-header">
+              <h1>CULTURE WITHOUT BORDERS</h1>
+            </Link>
             {!this.state.loggedUser && (
               <div className="menu-user">
                 <Link to="/register">Sign up</Link>
