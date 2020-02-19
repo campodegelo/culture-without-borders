@@ -17,10 +17,10 @@ export default class CountryPopUp extends React.Component {
 
   componentDidMount() {
     (async () => {
-      const { data } = await axios.get("/popUpLiterature/" + this.state.id);
+      const { data } = await axios.get("/getLatestData/" + this.state.id);
       console.log("data from popup ", data);
       this.setState({
-        books: data.books,
+        artists: data.artists,
         authors: data.authors
       });
     })();
@@ -39,14 +39,14 @@ export default class CountryPopUp extends React.Component {
 
         <div id="previous-info">
           <div className="small-container">
-            {this.state.books && (
+            {this.state.artists && (
               <div className="icons-pop">
-                {this.state.books.map(book => (
-                  <div className="small-item" key={book.book_id}>
+                {this.state.artists.map(artist => (
+                  <div className="small-item" key={artist.artist_id}>
                     <div className="overlay">
-                      <h2>{book.book_name}</h2>
+                      <h2>{artist.artist_name}</h2>
                     </div>
-                    <img src={book.image} alt={book.book_name}></img>
+                    <img src={artist.image} alt={artist.artist_name}></img>
                   </div>
                 ))}
               </div>

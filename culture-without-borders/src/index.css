@@ -1,7 +1,17 @@
 * {
   margin: 0;
-  background-color: #405cb1;
-  color: white;
+  /* background-color: #405cb1; */
+  background-color: #efe6d6;
+  /* color: white; */
+}
+
+.loading {
+  height: 200px;
+  width: 200px;
+  border: 1px solid #405cb1;
+  /* background-color: black; */
+  border-radius: 50%;
+  /* opacity: 50%; */
 }
 
 #map {
@@ -12,8 +22,10 @@
 }
 
 .mapContainer {
-  height: 550px;
+  position: fixed;
+  height: 90%;
   width: 100%;
+  bottom: 0;
 }
 
 .sidebarStyle {

@@ -34,7 +34,8 @@ export default class Maps extends React.Component {
       container: this.mapContainer,
       // style: "mapbox://styles/mapbox/dark-v10",
       // style: "mapbox://styles/campodegelo/ck6peiqju12nc1is9h04l2lg3",
-      style: "mapbox://styles/campodegelo/ck6pf5nj012wt1io6pt1i2cb9",
+      // style: "mapbox://styles/campodegelo/ck6pf5nj012wt1io6pt1i2cb9",
+      style: "mapbox://styles/campodegelo/ck6tgsp387nkz1imw0h5okcha",
       center: [this.state.lng, this.state.lat],
       zoom: this.state.zoom
     });
@@ -53,12 +54,13 @@ export default class Maps extends React.Component {
         source: "countries",
         layout: {},
         paint: {
-          "fill-color": "#1a1d62",
+          // "fill-color": "#1a1d62",
+          "fill-color": "#D14545",
           "fill-opacity": [
             "case",
             ["boolean", ["feature-state", "hover"], false],
             1,
-            0.1
+            0.01
           ]
         }
       });
@@ -70,8 +72,8 @@ export default class Maps extends React.Component {
         layout: {},
         paint: {
           // "line-color": "#48896D",
-          "line-color": "white",
-          "line-width": 0.5
+          "line-color": "black",
+          "line-width": 0.1
         }
       });
     });
@@ -128,12 +130,12 @@ export default class Maps extends React.Component {
   render() {
     return (
       <div>
-        <div className="sidebarStyle">
+        {/* <div className="sidebarStyle">
           <div>
             Longitude: {this.state.lng} | Latitude: {this.state.lat} | Zoom:{" "}
             {this.state.zoom}
           </div>
-        </div>
+        </div> */}
         <div ref={el => (this.mapContainer = el)} className="mapContainer" />
         {this.state.countryWasClicked && (
           <CountryPopUp

@@ -13,10 +13,6 @@ const { compare, hash } = require("./bcrypt");
 const db = require("./db");
 const goodreads = require("goodreads-api-node");
 const axios = require("axios");
-// const SpotifyWebApi = require("spotify-web-api-node");
-// const Deezer = require("deezer-node-api");
-// const dz = new Deezer();
-// const mapboxgl = require("mapbox-gl");
 
 // HANDLING SECRETS
 let secrets;
@@ -218,32 +214,47 @@ app.post("/searchBook", (req, res) => {
   // gr.getBooksByAuthor("175417").then(console.log);
   console.log("book to be searched: ", req.body.book);
   // console.log(gr.searchBooks);
-  gr.searchBooks({ query: req.body.book }).then(({ search }) => {
-    console.log("search results = ", search.results.work);
-    let arrayOfBooks = [];
-    search.results.work.map(list => {
-      // console.log("best_book = ", list.best_book);
-      arrayOfBooks.push(list.best_book);
-      return list.best_book;
+  gr.searchBooks({ query: req.body.book })
+    .then(({ search }) => {
+      console.log("search results = ", search.results.work);
+      let arrayOfBooks = [];
+      search.results.work.map(list => {
+        // console.log("best_book = ", list.best_book);
+        arrayOfBooks.push(list.best_book);
+        return list.best_book;
+      });
+      console.log("arrayOfBooks: ", arrayOfBooks);
+      // console.log("search results length = ", search.results.work.length);
+      res.json(arrayOfBooks);
+    })
+    .catch(e => {
+      console.log("error in searching books: ", e);
+      res.json({ status: "not-found" });
     });
-    console.log("arrayOfBooks: ", arrayOfBooks);
-    // console.log("search results length = ", search.results.work.length);
-    res.json(arrayOfBooks);
-  });
 });
 // POST /searchBook
 // search for books by name
 app.post("/searchAuthor", (req, res) => {
   console.log("author to be searched: ", req.body.author);
   console.log("gr = ", gr);
-  gr.searchAuthors(req.body.author).then(data => {
-    console.log("data = ", data);
-    console.log("search results = ", data.author);
-    gr.getAuthorInfo(data.author.id).then(data => {
-      console.log("search results = ", data);
-      res.json(data);
+  gr.searchAuthors(req.body.author)
+    .then(data => {
+      console.log("data = ", data);
+      console.log("search results = ", data.author);
+      gr.getAuthorInfo(data.author.id)
+        .then(data => {
+          console.log("search results = ", data);
+          res.json(data);
+        })
+        .catch(e => {
+          console.log("error in searching authors: ", e);
+          res.json({ status: "not-found" });
+        });
+    })
+    .catch(e => {
+      console.log("error in searching authors: ", e);
+      res.json({ status: "not-found" });
     });
-  });
 });
 // POST / addAuthor
 // insert an author to the table for the specified country
@@ -298,18 +309,21 @@ app.post("/addBooks", (req, res) => {
     success: true
   });
 });
-// GET / popUpLiterature/:countryId
-// find latest books and authors for a specific country
-app.get("/popUpLiterature/:countryId", (req, res) => {
+// GET / getLatestData/:countryId
+// find latest artists and authors from a specific country
+app.get("/getLatestData/:countryId", (req, res) => {
   const { countryId } = req.params;
   console.log("country to be searched: ", countryId);
   (async () => {
-    const books = await db.getLatestBooks(countryId);
+    // const books = await db.getLatestBooks(countryId);
     const authors = await db.getLatestAuthors(countryId);
-    console.log("books = ", books);
+    const artists = await db.getLatestArtists(countryId);
+    // console.log("books = ", books);
     console.log("authors = ", authors);
+    console.log("authors = ", artists);
     res.json({
-      books,
+      // books,
+      artists,
       authors
     });
   })();
@@ -331,6 +345,7 @@ app.post("/searchArtist", (req, res) => {
     })
     .catch(err => {
       console.log("error in searchArtist", err);
+      res.json({ status: "not-found" });
     });
 });
 // POST /searchAlbum
@@ -349,6 +364,7 @@ app.post("/searchAlbum", (req, res) => {
     })
     .catch(err => {
       console.log("error in /searchAlbums", err);
+      res.json({ status: "not-found" });
     });
 });
 // POST //addAlbums

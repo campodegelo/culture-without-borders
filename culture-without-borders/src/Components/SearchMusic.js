@@ -7,7 +7,8 @@ export default class SearchMusic extends React.Component {
     super(props);
     this.state = {
       artists: null,
-      albums: null
+      albums: null,
+      loading: false
     };
   }
 
@@ -18,9 +19,11 @@ export default class SearchMusic extends React.Component {
   }
 
   handleSubmit() {
+    this.setState({ loading: true });
     if (this.state.albumOrArtist === "album") {
       this.setState({
         artists: null,
+        albums: null,
         showAdd: false,
         selectedItems: [],
         uploaded: null
@@ -36,7 +39,8 @@ export default class SearchMusic extends React.Component {
         .then(({ data }) => {
           console.log("data from searchalbum: ", data.data);
           this.setState({
-            albums: data.data
+            albums: data.data,
+            loading: false
           });
         })
         .catch(err => {
@@ -45,6 +49,7 @@ export default class SearchMusic extends React.Component {
     } else if (this.state.albumOrArtist === "artist") {
       this.setState({
         albums: null,
+        artists: null,
         showAdd: false,
         selectedItems: [],
         uploaded: null
@@ -60,7 +65,8 @@ export default class SearchMusic extends React.Component {
         .then(({ data }) => {
           console.log("data from searchartist: ", data.data);
           this.setState({
-            artists: data.data
+            artists: data.data,
+            loading: false
           });
         })
         .catch(err => {
@@ -113,6 +119,15 @@ export default class SearchMusic extends React.Component {
         <label>Artist</label>
         <br></br>
         <button onClick={() => this.handleSubmit()}>search</button>
+
+        {this.state.loading && (
+          <img
+            className="loading"
+            src="/img/loading.gif"
+            alt="loading"
+            key="loading"
+          />
+        )}
 
         {this.state.albums && (
           <div className="albums-container">

@@ -8,7 +8,9 @@ export default class SearchLiterature extends React.Component {
     this.state = {
       selectedItems: [],
       showAdd: false,
-      uploaded: null
+      uploaded: null,
+      loading: false,
+      notFound: false
     };
   }
 
@@ -19,12 +21,15 @@ export default class SearchLiterature extends React.Component {
   }
 
   handleSubmit() {
+    this.setState({ loading: true });
     if (this.state.bookOrAuthor === "book") {
       this.setState({
         authors: null,
         showAdd: false,
+        books: null,
         selectedItems: [],
-        uploaded: null
+        uploaded: null,
+        notFound: false
       });
 
       // input is normalized in order to avoid accentuation
@@ -36,9 +41,17 @@ export default class SearchLiterature extends React.Component {
         })
         .then(({ data }) => {
           console.log(data);
-          this.setState({
-            books: data
-          });
+          if (data.status === "not-found") {
+            this.setState({
+              notFound: true,
+              loading: false
+            });
+          } else {
+            this.setState({
+              books: data,
+              loading: false
+            });
+          }
         })
         .catch(err => {
           console.log("error in /searchBook: ", err);
@@ -46,6 +59,7 @@ export default class SearchLiterature extends React.Component {
     } else if (this.state.bookOrAuthor === "author") {
       this.setState({
         books: null,
+        authors: null,
         showAdd: false,
         selectedItems: [],
         uploaded: null
@@ -60,9 +74,17 @@ export default class SearchLiterature extends React.Component {
         })
         .then(({ data }) => {
           console.log(data);
-          this.setState({
-            authors: data
-          });
+          if (data.status === "not-found") {
+            this.setState({
+              notFound: true,
+              loading: false
+            });
+          } else {
+            this.setState({
+              authors: data,
+              loading: false
+            });
+          }
         })
         .catch(err => {
           console.log("error in /searchBook: ", err);
@@ -114,6 +136,27 @@ export default class SearchLiterature extends React.Component {
         <label>Author</label>
         <br></br>
         <button onClick={() => this.handleSubmit()}>search</button>
+
+        {this.state.loading && (
+          <img
+            className="loading"
+            src="/img/loading.gif"
+            alt="loading"
+            key="loading"
+          />
+        )}
+
+        {this.state.notFound && (
+          <div>
+            <h2>Item not Found</h2>
+            <img
+              className="not-found"
+              src="/img/404.gif"
+              alt="not found"
+              key="notfound"
+            />
+          </div>
+        )}
 
         {this.state.books && (
           <div className="books-container">

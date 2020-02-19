@@ -144,6 +144,28 @@ exports.getLatestAuthors = countryId => {
     )
     .then(({ rows }) => rows);
 };
+// get the last 5 artists from a specific country
+exports.getLatestArtists = countryId => {
+  return db
+    .query(
+      `SELECT * FROM artists
+        WHERE country=$1
+        ORDER BY id DESC LIMIT 5`,
+      [countryId]
+    )
+    .then(({ rows }) => rows);
+};
+// get the last 5 albums from a specific country
+exports.getLatestAlbums = countryId => {
+  return db
+    .query(
+      `SELECT * FROM albums
+        WHERE country=$1
+        ORDER BY id DESC LIMIT 5`,
+      [countryId]
+    )
+    .then(({ rows }) => rows);
+};
 // get more authors from the table => MORE BUTTON
 exports.moreAuthors = lastId => {
   return db
