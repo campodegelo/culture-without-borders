@@ -359,11 +359,15 @@ app.post("/searchArtist", (req, res) => {
     .get(
       "https://api.deezer.com/search/artist/?q=" +
         req.body.artist +
-        '"&index=0&limit=5"'
+        '"&index=0&limit=6"'
     )
     .then(response => {
       console.log(response.data.data);
-      res.json(response.data);
+      if (response.length === 0) {
+        res.json({ status: "not-found" });
+      } else {
+        res.json(response.data);
+      }
     })
     .catch(err => {
       console.log("error in searchArtist", err);
@@ -378,11 +382,15 @@ app.post("/searchAlbum", (req, res) => {
     .get(
       "https://api.deezer.com/search/album/?q=" +
         req.body.album +
-        "&index=0&limit=5"
+        "&index=0&limit=6"
     )
     .then(response => {
       console.log(response.data);
-      res.json(response.data);
+      if (response.data.length === 0) {
+        res.json({ status: "not-found" });
+      } else {
+        res.json(response.data);
+      }
     })
     .catch(err => {
       console.log("error in /searchAlbums", err);

@@ -104,9 +104,10 @@ export default class CountrySearch extends React.Component {
       <div id="country">
         <div>
           {this.props.selectedItems && (
-            <div id="selectedItems">
+            <div className="albums-container right">
               {this.props.selectedItems.map(item => (
                 <div
+                  className="album"
                   key={
                     item.image_url || item.picture_medium || item.cover_medium
                   }

@@ -8,7 +8,8 @@ export default class SearchMusic extends React.Component {
     this.state = {
       artists: null,
       albums: null,
-      loading: false
+      loading: false,
+      notFound: false
     };
   }
 
@@ -21,13 +22,21 @@ export default class SearchMusic extends React.Component {
   handleSubmit() {
     this.setState({ loading: true });
     console.log("this.state.albumOrArtist: ", this.state.albumOrArtist);
+    if (!this.state.albumOrArtist) {
+      this.setState({
+        error: true,
+        loading: false
+      });
+      return;
+    }
     if (this.state.albumOrArtist === "album") {
       this.setState({
         artists: null,
         albums: null,
         showAdd: false,
         selectedItems: [],
-        uploaded: null
+        uploaded: null,
+        error: false
       });
 
       // input is normalized in order to avoid accentuation
@@ -39,11 +48,18 @@ export default class SearchMusic extends React.Component {
         })
         .then(({ data }) => {
           console.log("data from searchalbum: ", data.data);
-          this.setState({
-            albums: data.data,
-            next: data.next,
-            loading: false
-          });
+          if (data.status === "not-found") {
+            this.setState({
+              notFound: true,
+              loading: false
+            });
+          } else {
+            this.setState({
+              albums: data.data,
+              next: data.next,
+              loading: false
+            });
+          }
         })
         .catch(err => {
           console.log("error in /searchAlbum: ", err);
@@ -67,10 +83,17 @@ export default class SearchMusic extends React.Component {
         })
         .then(({ data }) => {
           console.log("data from searchartist: ", data.data);
-          this.setState({
-            artists: data.data,
-            loading: false
-          });
+          if (data.status === "not-found") {
+            this.setState({
+              notFound: true,
+              loading: false
+            });
+          } else {
+            this.setState({
+              artists: data.data,
+              loading: false
+            });
+          }
         })
         .catch(err => {
           console.log("error in /searchalbum: ", err);
@@ -173,9 +196,9 @@ export default class SearchMusic extends React.Component {
         )}
 
         {this.state.artists && (
-          <div className="artists-container">
+          <div className="albums-container">
             {this.state.artists.map(artist => (
-              <div className="single-artist" key={artist.id}>
+              <div className="album" key={artist.id}>
                 <h2>{artist.name}</h2>
                 <img src={artist.picture_medium} alt={artist.name} />
                 <button onClick={() => this.handleSelect(artist, "artists")}>
@@ -189,10 +212,26 @@ export default class SearchMusic extends React.Component {
           </div>
         )}
 
+        {this.state.notFound && (
+          <div>
+            <h2>Item not Found</h2>
+            <img
+              className="not-found"
+              src="/img/404.gif"
+              alt="not found"
+              key="notfound"
+            />
+          </div>
+        )}
+
         {this.state.uploaded && (
           <div>
             <h1>Item uploaded to {this.state.uploaded}</h1>
           </div>
+        )}
+
+        {this.state.error && (
+          <h1 className="wrong">You have to choose between Album and Artist</h1>
         )}
 
         {this.state.showAdd && (

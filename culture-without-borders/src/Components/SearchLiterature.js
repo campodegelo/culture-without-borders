@@ -22,6 +22,13 @@ export default class SearchLiterature extends React.Component {
 
   handleSubmit() {
     this.setState({ loading: true });
+    if (!this.state.bookOrAuthor) {
+      this.setState({
+        error: true,
+        loading: false
+      });
+      return;
+    }
     if (this.state.bookOrAuthor === "book") {
       this.setState({
         authors: null,
@@ -29,7 +36,8 @@ export default class SearchLiterature extends React.Component {
         books: null,
         selectedItems: [],
         uploaded: null,
-        notFound: false
+        notFound: false,
+        error: false
       });
 
       // input is normalized in order to avoid accentuation
@@ -162,9 +170,9 @@ export default class SearchLiterature extends React.Component {
         )}
 
         {this.state.books && (
-          <div className="books-container">
+          <div className="albums-container">
             {this.state.books.map(book => (
-              <div className="book" key={book.id["_"]}>
+              <div className="album" key={book.id["_"]}>
                 <h2>{book.title}</h2>
                 <img src={book.image_url} alt={book.title} />
                 <button onClick={() => this.handleSelect(book, "books")}>
@@ -176,24 +184,26 @@ export default class SearchLiterature extends React.Component {
         )}
 
         {this.state.authors && (
-          <div className="author-container" key={this.state.authors.id}>
-            <h2>{this.state.authors.name}</h2>
-            <img
-              src={this.state.authors.large_image_url}
-              alt={this.state.authors.name}
-            />
-            <button
-              onClick={() => this.handleSelect(this.state.authors, "authors")}
-            >
-              select this item
-            </button>
-            <a
-              href={this.state.authors.link}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              GOODREADS Profile
-            </a>
+          <div className="albums-container" key={this.state.authors.id}>
+            <div className="album">
+              <h2>{this.state.authors.name}</h2>
+              <img
+                src={this.state.authors.large_image_url}
+                alt={this.state.authors.name}
+              />
+              <button
+                onClick={() => this.handleSelect(this.state.authors, "authors")}
+              >
+                select this item
+              </button>
+              <a
+                href={this.state.authors.link}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                GOODREADS Profile
+              </a>
+            </div>
           </div>
         )}
 
@@ -201,6 +211,10 @@ export default class SearchLiterature extends React.Component {
           <div>
             <h1>Item uploaded to {this.state.uploaded}</h1>
           </div>
+        )}
+
+        {this.state.error && (
+          <h1 className="wrong">You have to choose between Author or Book</h1>
         )}
 
         {this.state.showAdd && (

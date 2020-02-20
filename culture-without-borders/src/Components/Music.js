@@ -16,14 +16,6 @@ export default class Music extends React.Component {
         "/getArtistsAndAlbums/" + this.props.match.params.id
       );
       console.log("data from /getArtistsAndAlbums: ", data);
-      // console.log(
-      //   "comparison, data.albums[data.albums.length - 1]: ",
-      //   data.albums[data.albums.length - 1]
-      // );
-      // console.log("id: ", data.albums[data.albums.length - 1].id);
-      // console.log("lowestId: ", data.albums[0].lowestId);
-      // console.log(
-      //   "data.albums[data.albums.length - 1].id > data.albums[0].lowestId : ",
       //   data.albums[data.albums.length - 1].id > data.albums[0].lowestId
       // );
       this.setState({
