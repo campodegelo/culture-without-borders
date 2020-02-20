@@ -14,8 +14,20 @@ export default class App extends React.Component {
     super(props);
     this.state = {};
   }
+
+  logout() {
+    (async () => {
+      const data = await axios.post("/logout");
+      console.log("data from /logout: ", data);
+      this.setState({
+        loggedUser: null
+      });
+    })();
+  }
+
   componentDidMount() {
     axios.get("/user").then(({ data }) => {
+      console.log("logged user : ", data);
       if (data.success !== false) {
         this.setState({ loggedUser: data });
       }
@@ -38,7 +50,7 @@ export default class App extends React.Component {
             )}
             {this.state.loggedUser && (
               <div className="menu-user">
-                <a href="/logout">logout</a>
+                <p onClick={() => this.logout()}>logout</p>
               </div>
             )}
           </header>

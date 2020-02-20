@@ -20,6 +20,7 @@ export default class SearchMusic extends React.Component {
 
   handleSubmit() {
     this.setState({ loading: true });
+    console.log("this.state.albumOrArtist: ", this.state.albumOrArtist);
     if (this.state.albumOrArtist === "album") {
       this.setState({
         artists: null,
@@ -40,6 +41,7 @@ export default class SearchMusic extends React.Component {
           console.log("data from searchalbum: ", data.data);
           this.setState({
             albums: data.data,
+            next: data.next,
             loading: false
           });
         })
@@ -47,6 +49,7 @@ export default class SearchMusic extends React.Component {
           console.log("error in /searchAlbum: ", err);
         });
     } else if (this.state.albumOrArtist === "artist") {
+      console.log("searching for artists");
       this.setState({
         albums: null,
         artists: null,
@@ -75,6 +78,21 @@ export default class SearchMusic extends React.Component {
     }
   }
 
+  showMore() {
+    (async () => {
+      const { data } = await axios.post("/showMore", {
+        next: this.state.next
+      });
+      // axios.get(this.state.next);
+      console.log("data from showMore : ", data);
+      this.setState({
+        ...this.state,
+        next: data.next,
+        albums: this.state.albums.concat(data.data)
+      });
+    })();
+  }
+
   handleSelect(item, type) {
     console.log("selected item is ", item);
     console.log("state = ", this.state[type]);
@@ -95,30 +113,35 @@ export default class SearchMusic extends React.Component {
 
   render() {
     return (
-      <div>
-        <input
-          type="text"
-          name="albumOrArtistToSearch"
-          placeholder="search for an album"
-          onChange={e => this.handleChange(e)}
-        ></input>
-        <br></br>
-        <input
-          type="radio"
-          name="albumOrArtist"
-          value="album"
-          onChange={e => this.handleChange(e)}
-        ></input>
-        <label>Album</label>
-        <input
-          type="radio"
-          name="albumOrArtist"
-          value="artist"
-          onChange={e => this.handleChange(e)}
-        ></input>
-        <label>Artist</label>
-        <br></br>
-        <button onClick={() => this.handleSubmit()}>search</button>
+      <div className="search-container">
+        <div className="regular-form">
+          <h1>MUSIC SEARCH</h1>
+          <input
+            type="text"
+            name="albumOrArtistToSearch"
+            placeholder="name to search"
+            onChange={e => this.handleChange(e)}
+          ></input>
+          <br></br>
+          <div>
+            <input
+              type="radio"
+              name="albumOrArtist"
+              value="album"
+              onChange={e => this.handleChange(e)}
+            ></input>
+            <label>Album</label>
+            <input
+              type="radio"
+              name="albumOrArtist"
+              value="artist"
+              onChange={e => this.handleChange(e)}
+            ></input>
+            <label>Artist</label>
+          </div>
+          <br></br>
+          <button onClick={() => this.handleSubmit()}>search</button>
+        </div>
 
         {this.state.loading && (
           <img
@@ -143,6 +166,9 @@ export default class SearchMusic extends React.Component {
                 </a>
               </div>
             ))}
+            {this.state.next && (
+              <button onClick={() => this.showMore()}>show more</button>
+            )}
           </div>
         )}
 

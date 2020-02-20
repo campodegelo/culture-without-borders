@@ -112,30 +112,33 @@ export default class SearchLiterature extends React.Component {
 
   render() {
     return (
-      <div>
-        <input
-          type="text"
-          name="bookOrAuthorToSearch"
-          placeholder="search for a book"
-          onChange={e => this.handleChange(e)}
-        ></input>
-        <br></br>
-        <input
-          type="radio"
-          name="bookOrAuthor"
-          value="book"
-          onChange={e => this.handleChange(e)}
-        ></input>
-        <label>Book</label>
-        <input
-          type="radio"
-          name="bookOrAuthor"
-          value="author"
-          onChange={e => this.handleChange(e)}
-        ></input>
-        <label>Author</label>
-        <br></br>
-        <button onClick={() => this.handleSubmit()}>search</button>
+      <div className="search-container">
+        <div className="regular-form">
+          <h1>LITERATURE SEARCH</h1>
+          <input
+            type="text"
+            name="bookOrAuthorToSearch"
+            placeholder="name to search"
+            onChange={e => this.handleChange(e)}
+          ></input>
+          <br></br>
+          <input
+            type="radio"
+            name="bookOrAuthor"
+            value="book"
+            onChange={e => this.handleChange(e)}
+          ></input>
+          <label>Book</label>
+          <input
+            type="radio"
+            name="bookOrAuthor"
+            value="author"
+            onChange={e => this.handleChange(e)}
+          ></input>
+          <label>Author</label>
+          <br></br>
+          <button onClick={() => this.handleSubmit()}>search</button>
+        </div>
 
         {this.state.loading && (
           <img

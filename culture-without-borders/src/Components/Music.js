@@ -16,6 +16,16 @@ export default class Music extends React.Component {
         "/getArtistsAndAlbums/" + this.props.match.params.id
       );
       console.log("data from /getArtistsAndAlbums: ", data);
+      // console.log(
+      //   "comparison, data.albums[data.albums.length - 1]: ",
+      //   data.albums[data.albums.length - 1]
+      // );
+      // console.log("id: ", data.albums[data.albums.length - 1].id);
+      // console.log("lowestId: ", data.albums[0].lowestId);
+      // console.log(
+      //   "data.albums[data.albums.length - 1].id > data.albums[0].lowestId : ",
+      //   data.albums[data.albums.length - 1].id > data.albums[0].lowestId
+      // );
       this.setState({
         albums: data.albums,
         artists: data.artists,
@@ -60,7 +70,7 @@ export default class Music extends React.Component {
                     <img src={album.image} alt={album.album_name}></img>
                   </div>
                 ))}
-                {this.state.showMorealbums && <button>show more albums</button>}
+                {this.state.showMoreAlbums && <button>show more albums</button>}
               </div>
             )}
           </div>
@@ -77,7 +87,7 @@ export default class Music extends React.Component {
                     <img src={artist.image} alt={artist.artist_name}></img>
                   </div>
                 ))}
-                {this.state.showMoreartists && (
+                {this.state.showMoreArtists && (
                   <button>show more artists</button>
                 )}
               </div>

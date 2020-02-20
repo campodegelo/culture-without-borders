@@ -191,10 +191,12 @@ app.post("/login", (req, res) => {
     }
   });
 });
-// LOGOUT - GET
-app.get("/logout", (req, res) => {
+// LOGOUT - POST
+app.post("/logout", (req, res) => {
+  console.log("made it here ", req.session);
   req.session.userId = null;
-  delete req.session;
+  // delete req.session;
+  console.log("after it here ", req.session);
   res.redirect("/");
   // window.location.pathname = "/";
 });
@@ -360,7 +362,7 @@ app.post("/searchArtist", (req, res) => {
         '"&index=0&limit=5"'
     )
     .then(response => {
-      console.log(response.data);
+      console.log(response.data.data);
       res.json(response.data);
     })
     .catch(err => {
@@ -387,6 +389,21 @@ app.post("/searchAlbum", (req, res) => {
       res.json({ status: "not-found" });
     });
 });
+// POST /showMore
+// search for more artists
+app.post("/showMore", (req, res) => {
+  axios
+    .get(req.body.next)
+    .then(response => {
+      console.log(response.data);
+      res.json(response.data);
+    })
+    .catch(err => {
+      console.log("error in /showMore", err);
+      res.json({ status: "not-found" });
+    });
+});
+// search for albums by name
 // POST //addAlbums
 // add selected albums to the table albums according to the country
 app.post("/addAlbums", (req, res) => {

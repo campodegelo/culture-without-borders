@@ -50,13 +50,14 @@ export default class CountryPopUp extends React.Component {
                     <img src={artist.image} alt={artist.artist_name}></img>
                   </div>
                 ))}
+                <h1>LATEST UPLOADED ARTISTS</h1>
               </div>
             )}
           </div>
 
           <div className="small-container">
             {this.state.authors && (
-              <div className="icons-pop-music">
+              <div className="icons-pop">
                 {this.state.authors.map(author => (
                   <div className="small-item" key={author.id}>
                     <div className="overlay">
@@ -65,14 +66,26 @@ export default class CountryPopUp extends React.Component {
                     <img src={author.image} alt={author.author}></img>
                   </div>
                 ))}
+                <h1>LATEST UPLOADED AUTHORS</h1>
               </div>
             )}
           </div>
         </div>
 
-        <Link to={`/books/${this.state.id}`}>
-          Literature from {this.state.name}
-        </Link>
+        <div className="more-content">
+          <Link to={`/books/${this.state.id}`}>
+            <img src="/img/books.png" alt="books" />
+            <h3>more literature from</h3>
+            <h3>{this.state.name}</h3>
+          </Link>
+          <Link to={`/music/${this.state.id}`}>
+            <img src="/img/music.png" alt="music" />
+            <h3>
+              more music from <br></br>
+              {this.state.name}
+            </h3>
+          </Link>
+        </div>
       </div>
     );
   }
