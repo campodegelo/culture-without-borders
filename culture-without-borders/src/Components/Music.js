@@ -41,6 +41,40 @@ export default class Music extends React.Component {
     })();
   }
 
+  componentDidUpdate(prevProps) {
+    // Typical usage (don't forget to compare props):
+    if (this.props.match.params.id !== prevProps.match.params.id) {
+      (async () => {
+        const { data } = await axios.get(
+          "/getArtistsAndAlbums/" + this.props.match.params.id
+        );
+        console.log("data from /getArtistsAndAlbums: ", data);
+        //   data.albums[data.albums.length - 1].id > data.albums[0].lowestId
+        // );
+        this.setState({
+          albums: data.albums,
+          artists: data.artists,
+          lastIdAlbum:
+            data.albums[data.albums.length - 1] &&
+            data.albums[data.albums.length - 1].id,
+          lastIdArtist:
+            data.artists[data.artists.length - 1] &&
+            data.artists[data.artists.length - 1].id,
+          // lastIdOnScreenalbum: data.albums[data.albums.length - 1].id,
+          // lowestIdalbums: data.albums[0].lowestId,
+          // lowestIdartists: data.artists[0].lowestId,
+          // lastIdOnScreenartist: data.artists[data.artists.length - 1].id,
+          showMoreAlbums:
+            data.albums[data.albums.length - 1] &&
+            data.albums[data.albums.length - 1].id > data.albums[0].lowestId,
+          showMoreArtists:
+            data.artists[data.artists.length - 1] &&
+            data.artists[data.artists.length - 1].id > data.artists[0].lowestId
+        });
+      })();
+    }
+  }
+
   showMoreAlbums() {
     (async () => {
       const { data } = await axios.post("/moreAlbums", {

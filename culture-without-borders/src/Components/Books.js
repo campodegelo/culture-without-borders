@@ -39,6 +39,39 @@ export default class Books extends React.Component {
     })();
   }
 
+  componentDidUpdate(prevProps) {
+    // Typical usage (don't forget to compare props):
+    if (this.props.match.params.id !== prevProps.match.params.id) {
+      // fetch artists and books information from the database
+      (async () => {
+        const { data } = await axios.get(
+          "/getBooksAndAuthors/" + this.props.match.params.id
+        );
+        console.log("data from /getBooksAndAuthors: ", data);
+        this.setState({
+          books: data.books,
+          authors: data.authors,
+          lastIdBook:
+            data.books[data.books.length - 1] &&
+            data.books[data.books.length - 1].id,
+          lastIdAuthor:
+            data.authors[data.authors.length - 1] &&
+            data.authors[data.authors.length - 1].id,
+          // lastIdOnScreenBook: data.books[data.books.length - 1].id,
+          // lowestIdBooks: data.books[0].lowestId,
+          // lowestIdAuthors: data.authors[0].lowestId,
+          // lastIdOnScreenAuthor: data.authors[data.authors.length - 1].id,
+          showMoreBooks:
+            data.books[data.books.length - 1] &&
+            data.books[data.books.length - 1].id > data.books[0].lowestId,
+          showMoreAuthors:
+            data.authors[data.authors.length - 1] &&
+            data.authors[data.authors.length - 1].id > data.authors[0].lowestId
+        });
+      })();
+    }
+  }
+
   showMoreBooks() {
     (async () => {
       const { data } = await axios.post("/moreBooks", {
