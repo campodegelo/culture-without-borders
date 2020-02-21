@@ -21,6 +21,12 @@ export default class Music extends React.Component {
       this.setState({
         albums: data.albums,
         artists: data.artists,
+        lastIdAlbum:
+          data.albums[data.albums.length - 1] &&
+          data.albums[data.albums.length - 1].id,
+        lastIdArtist:
+          data.artists[data.artists.length - 1] &&
+          data.artists[data.artists.length - 1].id,
         // lastIdOnScreenalbum: data.albums[data.albums.length - 1].id,
         // lowestIdalbums: data.albums[0].lowestId,
         // lowestIdartists: data.artists[0].lowestId,
@@ -35,21 +41,68 @@ export default class Music extends React.Component {
     })();
   }
 
+  showMoreAlbums() {
+    (async () => {
+      const { data } = await axios.post("/moreAlbums", {
+        country: this.props.match.params.id,
+        lastId: this.state.lastIdAlbum
+      });
+      console.log("data from /getArtistsAndAlbums: ", data);
+      //   data.albums[data.albums.length - 1].id > data.albums[0].lowestId
+      // );
+      this.setState({
+        albums: this.state.albums.concat(data.albums),
+        lastIdAlbum:
+          data.albums[data.albums.length - 1] &&
+          data.albums[data.albums.length - 1].id,
+        showMoreAlbums:
+          data.albums[data.albums.length - 1] &&
+          data.albums[data.albums.length - 1].id > data.albums[0].lowestId
+      });
+    })();
+  }
+
+  showMoreArtists() {
+    (async () => {
+      const { data } = await axios.post("/moreArtists", {
+        country: this.props.match.params.id,
+        lastId: this.state.lastIdArtist
+      });
+      console.log("data from /getArtistsAndAlbums: ", data);
+      //   data.albums[data.albums.length - 1].id > data.albums[0].lowestId
+      // );
+      this.setState({
+        artists: this.state.artists.concat(data.artists),
+        lastIdArtist:
+          data.artists[data.artists.length - 1] &&
+          data.artists[data.artists.length - 1].id,
+        showMoreArtists:
+          data.artists[data.artists.length - 1] &&
+          data.artists[data.artists.length - 1].id > data.artists[0].lowestId
+      });
+    })();
+  }
+
   render() {
     return (
       <div className="albums-screen">
         <h1>Music Page</h1>
-        <img
+        {/* <img
           src={`/flags-big-iso3/${this.props.match.params.id}.png`}
           alt={this.props.match.params.id}
           className="big-flag"
-        />
+        /> */}
 
         <Link to={"/searchMusic"}>
           Want to add more albums or artists? Click here!
         </Link>
 
-        <div className="previous">
+        <div
+          className="previous"
+          style={{
+            backgroundImage: `url(/flags-big-iso3/${this.props.match.params.id}.png)`
+          }}
+        >
           <div className="big-container albums">
             <h2>ALBUMS</h2>
             {this.state.albums && (
@@ -62,7 +115,11 @@ export default class Music extends React.Component {
                     <img src={album.image} alt={album.album_name}></img>
                   </div>
                 ))}
-                {this.state.showMoreAlbums && <button>show more albums</button>}
+                {this.state.showMoreAlbums && (
+                  <button onClick={() => this.showMoreAlbums()}>
+                    show more albums
+                  </button>
+                )}
               </div>
             )}
           </div>
@@ -80,7 +137,9 @@ export default class Music extends React.Component {
                   </div>
                 ))}
                 {this.state.showMoreArtists && (
-                  <button>show more artists</button>
+                  <button onClick={() => this.showMoreArtists()}>
+                    show more artists
+                  </button>
                 )}
               </div>
             )}

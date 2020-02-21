@@ -461,6 +461,54 @@ app.post("/addArtists", (req, res) => {
     success: true
   });
 });
+// POST - More albums
+app.post("/moreAlbums", (req, res) => {
+  const { country, lastId } = req.body;
+  db.moreAlbums(lastId, country)
+    .then(data => {
+      console.log("data fom more albums: ", data);
+      res.json({
+        albums: data
+      });
+    })
+    .catch(e => console.log("error in more albums: ", e));
+});
+// POST - More artists
+app.post("/moreArtists", (req, res) => {
+  const { country, lastId } = req.body;
+  db.moreArtists(lastId, country)
+    .then(data => {
+      console.log("data fom more albums: ", data);
+      res.json({
+        artists: data
+      });
+    })
+    .catch(e => console.log("error in more albums: ", e));
+});
+// POST - More books
+app.post("/moreBooks", (req, res) => {
+  const { country, lastId } = req.body;
+  db.moreBooks(lastId, country)
+    .then(data => {
+      console.log("data fom more albums: ", data);
+      res.json({
+        books: data
+      });
+    })
+    .catch(e => console.log("error in more albums: ", e));
+});
+// POST - More authors
+app.post("/moreAuthors", (req, res) => {
+  const { country, lastId } = req.body;
+  db.moreAuthors(lastId, country)
+    .then(data => {
+      console.log("data fom more albums: ", data);
+      res.json({
+        authors: data
+      });
+    })
+    .catch(e => console.log("error in more albums: ", e));
+});
 // ALL ROUTES
 // app.get("*", function(req, res) {
 //   res.redirect("/maps");

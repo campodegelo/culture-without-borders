@@ -202,34 +202,70 @@ exports.getLatestAlbums = countryId => {
     .then(({ rows }) => rows);
 };
 // get more authors from the table => MORE BUTTON
-exports.moreAuthors = lastId => {
+exports.moreAuthors = (lastId, country) => {
   return db
     .query(
       `SELECT *, (
                 SELECT id FROM authors
+                WHERE country=$2
                 ORDER BY id ASC
                 LIMIT 1
             ) AS "lowestId" FROM authors
-            WHERE id < $1
+            WHERE id < $1 and country=$2
             ORDER BY id DESC
             LIMIT 10;`,
-      [lastId]
+      [lastId, country]
     )
     .then(({ rows }) => rows);
 };
 // get more books from the table => MORE BUTTON
-exports.moreBooks = lastId => {
+exports.moreBooks = (lastId, country) => {
   return db
     .query(
       `SELECT *, (
                 SELECT id FROM books
+                WHERE country=$2
                 ORDER BY id ASC
                 LIMIT 1
             ) AS "lowestId" FROM books
-            WHERE id < $1
+            WHERE id < $1 and country=$2
             ORDER BY id DESC
             LIMIT 10;`,
-      [lastId]
+      [lastId, country]
+    )
+    .then(({ rows }) => rows);
+};
+// get more authors from the table => MORE BUTTON
+exports.moreArtists = (lastId, country) => {
+  return db
+    .query(
+      `SELECT *, (
+                SELECT id FROM artists
+                WHERE country=$2
+                ORDER BY id ASC
+                LIMIT 1
+            ) AS "lowestId" FROM artists
+            WHERE id < $1 and country=$2
+            ORDER BY id DESC
+            LIMIT 10;`,
+      [lastId, country]
+    )
+    .then(({ rows }) => rows);
+};
+// get more albums from the table => MORE BUTTON
+exports.moreAlbums = (lastId, country) => {
+  return db
+    .query(
+      `SELECT *, (
+                SELECT id FROM albums
+                WHERE country=$2
+                ORDER BY id ASC
+                LIMIT 1
+            ) AS "lowestId" FROM albums
+            WHERE id < $1 and country=$2
+            ORDER BY id DESC
+            LIMIT 10;`,
+      [lastId, country]
     )
     .then(({ rows }) => rows);
 };

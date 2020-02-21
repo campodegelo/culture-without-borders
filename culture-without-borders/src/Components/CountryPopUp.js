@@ -80,7 +80,7 @@ export default class CountryPopUp extends React.Component {
           <Link to={`/books/${this.state.id}`}>
             <img src="/img/books.png" alt="books" />
             <h3>
-              more music from <br></br>
+              more literature from <br></br>
               {this.state.name}
             </h3>
           </Link>

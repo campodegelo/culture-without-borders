@@ -19,6 +19,12 @@ export default class Books extends React.Component {
       this.setState({
         books: data.books,
         authors: data.authors,
+        lastIdBook:
+          data.books[data.books.length - 1] &&
+          data.books[data.books.length - 1].id,
+        lastIdAuthor:
+          data.authors[data.authors.length - 1] &&
+          data.authors[data.authors.length - 1].id,
         // lastIdOnScreenBook: data.books[data.books.length - 1].id,
         // lowestIdBooks: data.books[0].lowestId,
         // lowestIdAuthors: data.authors[0].lowestId,
@@ -33,21 +39,68 @@ export default class Books extends React.Component {
     })();
   }
 
+  showMoreBooks() {
+    (async () => {
+      const { data } = await axios.post("/moreBooks", {
+        country: this.props.match.params.id,
+        lastId: this.state.lastIdBook
+      });
+      console.log("data from /getArtistsAndAlbums: ", data);
+      //   data.albums[data.albums.length - 1].id > data.albums[0].lowestId
+      // );
+      this.setState({
+        books: this.state.books.concat(data.books),
+        lastIdBook:
+          data.books[data.books.length - 1] &&
+          data.books[data.books.length - 1].id,
+        showMoreBooks:
+          data.books[data.books.length - 1] &&
+          data.books[data.books.length - 1].id > data.books[0].lowestId
+      });
+    })();
+  }
+
+  showMoreAuthors() {
+    (async () => {
+      const { data } = await axios.post("/moreAuthors", {
+        country: this.props.match.params.id,
+        lastId: this.state.lastIdAuthor
+      });
+      console.log("data from /getArtistsAndAlbums: ", data);
+      //   data.albums[data.albums.length - 1].id > data.albums[0].lowestId
+      // );
+      this.setState({
+        books: this.state.authors.concat(data.authors),
+        lastIdAuthor:
+          data.authors[data.authors.length - 1] &&
+          data.authors[data.authors.length - 1].id,
+        showMoreAuthors:
+          data.authors[data.authors.length - 1] &&
+          data.authors[data.authors.length - 1].id > data.authors[0].lowestId
+      });
+    })();
+  }
+
   render() {
     return (
       <div className="albums-screen">
         <h1>Book Page</h1>
-        <img
+        {/* <img
           src={`/flags-big-iso3/${this.props.match.params.id}.png`}
           alt={this.props.match.params.id}
           className="big-flag"
-        />
+        /> */}
 
         <Link to={"/searchLiterature"}>
           Want to add more books or authors? Click here!
         </Link>
 
-        <div className="previous">
+        <div
+          className="previous"
+          style={{
+            backgroundImage: `url(/flags-big-iso3/${this.props.match.params.id}.png)`
+          }}
+        >
           <div className="big-container">
             <h2>BOOKS</h2>
             {this.state.books && (
@@ -64,7 +117,11 @@ export default class Books extends React.Component {
                     ></img>
                   </div>
                 ))}
-                {this.state.showMoreBooks && <button>show more books</button>}
+                {this.state.showMoreBooks && (
+                  <button onClick={() => this.showMoreBooks()}>
+                    show more books
+                  </button>
+                )}
               </div>
             )}
           </div>
@@ -86,7 +143,9 @@ export default class Books extends React.Component {
                   </div>
                 ))}
                 {this.state.showMoreAuthors && (
-                  <button>show more authors</button>
+                  <button onClick={() => this.showMoreAuthors()}>
+                    show more authors
+                  </button>
                 )}
               </div>
             )}
