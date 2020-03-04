@@ -41,8 +41,8 @@ html {
 }
 
 .loading {
-  height: 150px;
-  width: 150px;
+  height: 90px;
+  width: 90px;
   border: 1px solid #405cb1;
   /* background-color: black; */
   border-radius: 50%;
@@ -633,4 +633,19 @@ html {
 
 .album h2 {
   font-size: 1em;
+}
+
+.other-screen {
+  height: 10vh;
+  width: 10vh;
+  position: absolute;
+  top: 97px;
+  right: 15px;
+  z-index: 3;
+}
+
+.other-screen img {
+  height: 6vh;
+  width: 6vh;
+  float: right;
 }

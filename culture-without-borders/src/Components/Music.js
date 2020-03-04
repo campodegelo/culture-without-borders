@@ -127,6 +127,10 @@ export default class Music extends React.Component {
           className="big-flag"
         /> */}
 
+        <Link class="other-screen" to={`/books/${this.props.match.params.id}`}>
+          <img src="/img/books.png" alt="books" />
+        </Link>
+
         <Link to={"/searchMusic"}>
           Want to add more albums or artists? Click here!
         </Link>

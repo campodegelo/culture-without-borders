@@ -124,6 +124,10 @@ export default class Books extends React.Component {
           className="big-flag"
         /> */}
 
+        <Link class="other-screen" to={`/music/${this.props.match.params.id}`}>
+          <img src="/img/music.png" alt="books" />
+        </Link>
+
         <Link to={"/searchLiterature"}>
           Want to add more books or authors? Click here!
         </Link>
