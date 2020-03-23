@@ -9,7 +9,7 @@ export default class CountryPopUp extends React.Component {
     this.state = {
       name: this.props.name.toUpperCase(),
       id: this.props.countryISO3,
-      url: "/flags-big-iso3/" + this.props.countryISO3 + ".png",
+      url: "/flags-big-iso3/" + this.props.countryISO3.toLowerCase() + ".png",
       books: null,
       authors: null
     };

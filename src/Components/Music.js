@@ -138,7 +138,7 @@ export default class Music extends React.Component {
         <div
           className="previous"
           style={{
-            backgroundImage: `url(/flags-big-iso3/${this.props.match.params.id}.png)`
+            backgroundImage: `url(/flags-big-iso3/${this.props.match.params.id.toLowerCase()}.png)`
           }}
         >
           <div className="big-container albums">
