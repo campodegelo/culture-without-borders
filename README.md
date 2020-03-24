@@ -13,22 +13,22 @@
 1. [Description](#Description)
 2. [Technologies](#Technologies)
 3. [Features](#Features)
-   <br>[3.1 - World Map](#1)
-   <br>[3.2 - Country Information](#2)
-   <br>[3.3 - Literature](#3)
-   <br>[3.4 - Music](#4)
-   <br>[3.5 - Search Literature](#5)
-   <br>[3.6 - Search Music](#6)
+   <br>3.1. [World Map](#1)
+   <br>3.2. [Country Information](#2)
+   <br>3.3. [Literature](#3)
+   <br>3.4. [Music](#4)
+   <br>3.5. [Search Literature](#5)
+   <br>3.6. [Search Music](#6)
 4. [Next Features](#Next Features)
 
 ---
 
-### 1. Description
+### 1. Description <a name="Description"></a>
 
 A cultural and collaborative platform, where users are able to insert and search literature and music from and to a specific Country.
 Users are allowed to navigate on the map, and click on the countries, showing the latest information inserted about music or literature.
 
-### 2. Technologies
+### 2. Technologies <a name="Technologies"></a>
 
 - Axios
 - CSS
@@ -40,7 +40,7 @@ Users are allowed to navigate on the map, and click on the countries, showing th
 - PostgreSQL
 - React
 
-## 3. Features
+## 3. Features <a name="Features"></a>
 
 #### 3.1 World Map <a name="1"></a>
 
@@ -97,7 +97,7 @@ Behind the scenes, the Deezer API will be verified and will return the results m
 Afterwards select the ones you want, the country they belong to, and click on ADD ITEM.
 They will be inserted in the Country's Database.
 
-### 4. Next Features
+### 4. Next Features <a name="Next Features"></a>
 
 As the platform relies on user inputs, errors may arise.
 An author can be inserted as being German, but actually he/she was born in Austria.
