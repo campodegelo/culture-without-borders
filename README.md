@@ -19,7 +19,7 @@
    <br>3.4. [Music](#4)
    <br>3.5. [Search Literature](#5)
    <br>3.6. [Search Music](#6)
-4. [Next Features](#Next Features)
+4. [Next](#Next)
 
 ---
 
@@ -97,7 +97,7 @@ Behind the scenes, the Deezer API will be verified and will return the results m
 Afterwards select the ones you want, the country they belong to, and click on ADD ITEM.
 They will be inserted in the Country's Database.
 
-### 4. Next Features <a name="Next Features"></a>
+### 4. Next <a name="Next"></a>
 
 As the platform relies on user inputs, errors may arise.
 An author can be inserted as being German, but actually he/she was born in Austria.
