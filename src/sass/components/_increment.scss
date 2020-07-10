@@ -1,0 +1,27 @@
+.increment {
+    position: absolute;
+    top: 42%;
+    left: 30%;
+    font-size: 1.4rem;
+    font-weight: 500;
+    width: 70%;
+
+    &__formgroup {
+
+    }
+
+    
+    &__input {
+        width: 4.5rem;
+        text-align: center;
+        left: 5rem;
+        position: absolute;
+        border-radius: 10px;
+        margin-top: .2rem;
+        // width: 30%;
+    }
+
+    &__label {
+        width: 50%;
+    }
+}

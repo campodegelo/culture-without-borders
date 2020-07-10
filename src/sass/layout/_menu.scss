@@ -1,0 +1,75 @@
+.menu {
+
+    background-color: rgba(#fff, .4);
+    width: 30vh;
+    position: fixed;
+    top: 25rem;
+    left: 5rem;
+    padding: 1rem;
+    border-radius: 2rem;
+    border: 1px solid $color-black;
+    box-shadow: 0 2rem 3rem rgba($color-black, .9);
+    animation-name: moveInTop;
+    animation-duration: 2s;
+    animation-timing-function: ease-out;
+    z-index: 3;
+    
+    
+    &__list {
+        list-style: none;
+        text-align: center;
+    }
+    
+    &__item {
+        padding: 1rem;
+        // width: 80%;
+        border-bottom: 1px solid #000;
+
+        &:hover + &__link {
+            border-bottom: 2px solid $color-primary;
+
+        }
+    }
+    
+    &__link {
+        
+        &--close,
+        &:link,
+        &:visited {
+            text-decoration: none;
+            color: #000;
+            text-transform: uppercase;
+            font-size: 1.4rem;
+            // display: inline-block;
+            font-weight: 600;
+            transition: all 1s;
+            display: block;
+            cursor: pointer;
+        }
+
+        &--close:hover,
+        &:hover,
+        &:active {
+            // background-position: 100%;
+            color: $color-primary;
+            // transform: translateY(1rem) scale(1.1);
+            background-color: $color-black;
+            opacity: .6;
+        }
+
+        &--close {
+
+        }
+        
+
+    }
+
+    &__img {
+        height: 3rem;
+        width: 3rem;
+        display: block;
+        margin: auto;
+        // padding-top: 2rem;
+    }
+
+}

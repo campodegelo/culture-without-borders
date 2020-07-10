@@ -8,6 +8,7 @@ import Registration from "./Components/Registration";
 import Login from "./Components/Login";
 import Music from "./Components/Music";
 import SearchMusic from "./Components/SearchMusic";
+import Menu from './Components/Menu';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -37,6 +38,15 @@ export default class App extends React.Component {
     return (
       <HashRouter>
         <div className="App">
+          <main>
+                <Route exact path="/" component={Maps} />
+                <Route path="/books/:id" component={Books} />
+                <Route exact path="/searchLiterature" component={SearchLiterature} />
+                <Route path="/music/:id" component={Music} />
+                <Route exact path="/searchMusic" component={SearchMusic} />
+                <Route exact path="/register" component={Registration} />
+                <Route exact path="/login" component={Login} />
+          </main>
           <header className="App-header">
             {/* <img src="/img/loading4.gif" alt="loadingheader"></img> */}
             <Link to="/" id="title-header">
@@ -55,13 +65,8 @@ export default class App extends React.Component {
             )}
           </header>
           {/* <Maps /> */}
-          <Route exact path="/" component={Maps} />
-          <Route path="/books/:id" component={Books} />
-          <Route exact path="/searchLiterature" component={SearchLiterature} />
-          <Route path="/music/:id" component={Music} />
-          <Route exact path="/searchMusic" component={SearchMusic} />
-          <Route exact path="/register" component={Registration} />
-          <Route exact path="/login" component={Login} />
+          
+          <Menu></Menu>
         </div>
       </HashRouter>
     );

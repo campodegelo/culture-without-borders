@@ -1,0 +1,64 @@
+.main {
+    min-height: 90vh;
+    // background-image: linear-gradient(
+        // to right bottom,
+        // rgba($color-primary-light, 0.8), 
+        // rgba($color-primary-dark, 0.8)), 
+        // url(../img/cards.jpg);
+    background-size: cover;
+    background-position: top;
+    position: relative;
+    border-radius: 5px;
+    // display: flex;
+    // flex-direction: column;
+    
+    
+    // @supports (clip-path: polygon(0 0)) or (-webkit-clip-path: polygon(0 0 )) {
+    //     -webkit-clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%);
+    //     clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%);
+    //     height: 95vh;
+    // }
+
+    &__cover { 
+        z-index: 200;
+        background-color: $color-secondary-light;
+        color: orangered;
+        position: fixed;
+        top: 0;
+        left: 0;
+    }
+
+    @media only screen and (min-resolution: 192dpi) and (min-width: 37.5em),
+        only screen and(-webkit-min-device-pixel-ratio: 2) and (min-width: 37.5em),
+        only screen and (min-width: 125em) {
+        // background-image: linear-gradient(
+        // to right bottom,
+        // rgba($color-primary-light, 0.8), 
+        // rgba($color-primary-dark, 0.8)), 
+        // url(../img/cards.jpg);
+    }
+
+    @include respond(phone) {
+        -webkit-clip-path: polygon(0 0, 100% 0, 100% 85vh, 0 100%);
+        clip-path: polygon(0 0, 100% 0, 100% 85vh, 0 100%);
+    }
+
+    &__logo-box {
+        position: absolute;
+        top: 4rem;
+        left: 4rem;
+    }
+    
+    &__logo {
+        height: 3.5rem;
+    }
+    
+    &__text-box {
+        position: absolute;
+        top: 25vh;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+    }
+    
+}

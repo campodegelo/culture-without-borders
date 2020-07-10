@@ -1,0 +1,25 @@
+.start {
+
+    position: relative;
+    min-height: 120vh;
+    // width: 100%;
+    // display: flex;
+    // flex-wrap: wrap;
+
+    
+    
+    &__element {
+        width: 100%;
+    }
+    
+    &__img {
+        height: 50vh;
+        // position: absolute;
+        // top: 80%;
+        // left: 55%;
+        // transform: translate(-50%, -50%);
+
+
+        // display: inline-block;
+    }
+}

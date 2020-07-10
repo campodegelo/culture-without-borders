@@ -1,0 +1,23 @@
+.player {
+    background-color: $color-black;
+    cursor: pointer;
+
+    padding: 1rem 2rem;
+
+    &__image {
+        height: 10rem;
+        width: 10rem;
+        border-radius: 50%;
+        border: 2px solid black;
+        cursor: pointer;
+
+        &--small {
+            height: 5rem;
+            width: 5rem;
+        }
+    }
+
+    &__title {
+
+    }
+}

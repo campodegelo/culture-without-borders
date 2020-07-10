@@ -4,6 +4,7 @@
   "private": true,
   "proxy": "http://localhost:8080",
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.13.1",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.4.0",
     "@testing-library/user-event": "^7.2.1",
@@ -17,14 +18,10 @@
     "eslint-plugin-react": "^7.18.3",
     "express": "^4.17.1",
     "goodreads-api-node": "0.0.10",
-    "leaflet": "^1.6.0",
-    "mapbox-gl": "^1.7.0",
+    "mapbox-gl": "^1.11.1",
     "multer": "^1.4.2",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "react-google-maps": "^9.4.5",
-    "react-leaflet": "^2.6.1",
-    "react-leaflet-control": "^2.1.2",
     "react-redux": "^7.1.3",
     "react-router": "^5.1.2",
     "react-router-dom": "^5.1.2",
@@ -34,7 +31,6 @@
     "redux-promise": "^0.6.0",
     "socket.io": "^2.3.0",
     "spiced-pg": "^1.0.0",
-    "spotify-web-api-node": "^4.0.0",
     "uid-safe": "^2.1.5",
     "xml-js": "^1.6.11"
   },
@@ -42,7 +38,14 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "watch:sass": "node-sass src/sass/main.scss src/css/style.css -w",
+    "devserver": "live-server",
+    "startdev": "npm-run-all --parallel devserver watch:sass",
+    "compile:sass": "node-sass src/sass/main.scss src/css/style.comp.css",
+    "prefix:css": "postcss --use autoprefixer -b 'last 10 versions' src/css/style.comp.css -o src/css/style.prefix.css",
+    "compress:css": "node-sass src/css/style.prefix.css src/css/style.css --output-style compressed",
+    "build:css": "npm-run-all compile:sass prefix:css compress:css"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -58,5 +61,12 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "autoprefixer": "^9.8.4",
+    "concat": "^1.0.3",
+    "node-sass": "^4.14.1",
+    "npm-run-all": "^4.1.5",
+    "postcss-cli": "^7.1.1"
   }
 }

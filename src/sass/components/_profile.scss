@@ -1,0 +1,80 @@
+.profile {
+
+    position: absolute;
+    height: 15rem;
+    width: 15rem;
+    top: 5rem;
+    right: 5rem;
+    color: $color-white;
+    text-transform: uppercase;
+    font-weight: 700;
+    z-index: 1;
+
+    &__picture {
+        width: 10rem;
+        height: 10rem;
+        opacity: 0.8;
+        object-fit: cover;
+        border-radius: 50%;
+        position: relative;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    
+    &__text {
+        text-align: center;
+        position: relative;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+    
+    &__side {
+        
+        height: 15rem;
+        width: 15rem;
+        border-radius: 50%;
+        transition: all .8s ease;
+        font-size: 2rem;
+        position: absolute;
+        top: 0;
+        right: 0;
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+        overflow: hidden;
+        box-shadow: 0 1.5rem 4rem rgba($color-black, .15);
+        cursor: pointer;
+
+
+        
+        &--front {
+            // background-color: $color-white;
+            // background-image: url(/img/chip.png);
+            background-size: contain;
+            height: 15rem;
+            width: 15rem;
+        }
+        
+    
+        &--back {
+            transform: rotateY(180deg);    
+            // background-image: linear-gradient(to right bottom, $color-primary-light, $color-primary-dark);
+            // border: 2px solid $color-black;
+
+            // background-image: url(/img/chip.png);
+            background-size: contain;
+            height: 15rem;
+            width: 15rem;
+        }
+
+    }
+
+
+    &:hover &__side--front {
+        transform: rotateY(-180deg);
+    }
+
+    &:hover &__side--back { 
+        transform: rotateY(0);
+    }
+}

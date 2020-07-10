@@ -17,6 +17,29 @@ html {
   min-height: 100vh;
 }
 
+body::-webkit-scrollbar {
+  width: 0.5rem;
+}
+
+body::-webkit-scrollbar-track {
+  background-color: black;
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: #d14545;
+}
+
+.navbar {
+  width: 10rem;
+  height: 100vh;
+  position: fixed;
+  background-color: black;
+}
+
+main {
+  margin-left: 5rem;
+}
+
 .App-header {
   color: #d14545;
   background-color: black;
